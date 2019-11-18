@@ -4,8 +4,8 @@
     app
   >
     <v-btn
-      disabled
       :ripple="false"
+      disabled
       color="secondary"
       depressed
       x-small
@@ -36,7 +36,6 @@ export default {
   data: () => ({
     menus: [
       {
-        title: 'About',
         key: 'navigation.footer.about',
         items: [
           { title: 'About EMKAY', key: 'navigation.footer.about_emkay', to: {} },
@@ -46,7 +45,6 @@ export default {
         ]
       },
       {
-        title: 'More',
         key: 'navigation.footer.more',
         items: [
           { title: 'Press Releases', key: 'navigation.footer.press_releases', to: {} },
@@ -56,7 +54,6 @@ export default {
         ]
       },
       {
-        title: 'Technology',
         key: 'navigation.footer.technology',
         items: [
           { title: 'Celsius', key: 'navigation.footer.celsius', to: {} },

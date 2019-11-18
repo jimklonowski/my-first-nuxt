@@ -5,6 +5,7 @@
       v-if="$auth.loggedIn"
       clipped
       fixed
+      disable-route-watcher
       app
     >
       <v-list>

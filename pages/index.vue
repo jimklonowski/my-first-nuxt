@@ -2,7 +2,7 @@
   <v-container class="welcome" fill-height>
     <v-row justify="center">
       <v-col cols="auto">
-        <h1 v-t="'common.welcome_to_emkay'" class="display-4 font-weight-thin" />
+        <h1 v-t="'common.welcome_to_emkay'" class="display-2 font-weight-thin" />
       </v-col>
     </v-row>
   </v-container>
@@ -22,7 +22,7 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 100%;
   height: 100%;
   background-image: url(~@/static/road.jpg);
   background-size: cover;

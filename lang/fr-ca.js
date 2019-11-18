@@ -28,6 +28,7 @@ export default {
       leadtime_guides: "Guides de délais",
       press_releases: "Communiqués de presse",
       technology: "La technologie",
+      tech: "Tech",
       celsius: "Celsius",
       driver_360: "Driver 360",
       fleet_360: "Fleet 360",
