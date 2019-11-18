@@ -1,13 +1,8 @@
 <template>
   <v-col cols="auto">
     <v-card min-width="400" shaped>
-      <v-card-subtitle>Monthly Maintenance Cost</v-card-subtitle>
-      <v-card-title class="display-2" v-text="'$23.60'" />
-      <v-card-text class="font-italic font-weight-light">
-        This has
-        <v-chip class="font-weight-regular mx-1 px-1" x-small label color="error">increased</v-chip>
-        by 23% since last month.
-      </v-card-text>
+      <v-card-subtitle>Monthly Violations</v-card-subtitle>
+      <v-card-title class="error--text display-2" v-text="'1'" />
       <v-card-actions>
         <v-spacer />
         <v-btn @click="showMore = !showMore" icon>
@@ -17,7 +12,7 @@
       <v-expand-transition>
         <v-card :loading="loading" v-show="showMore" flat>
           <v-card-text>
-            <v-data-table :headers="headers" :items="items" />
+            <v-data-table style="min-width:650px;" :headers="headers" :items="items" />
           </v-card-text>
           <v-card-actions>
             <v-btn v-text="'omg'" text />
@@ -30,7 +25,7 @@
 
 <script>
 export default {
-  name: 'MaintenanceCard',
+  name: 'ViolationCard',
   data: () => ({
     headers: [
       {

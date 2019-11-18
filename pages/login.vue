@@ -1,5 +1,5 @@
 <template>
-  <v-container fill-height>
+  <v-container class="login-hero" fill-height>
     <v-row justify="center">
       <v-card :loading="loading" width="500" raised>
         <v-form ref="form" @submit.prevent="login">
@@ -32,6 +32,7 @@
             <v-btn
               v-t="'auth.login'"
               type="submit"
+              :ripple="false"
               color="primary lighten-2"
               large
               depressed
@@ -87,9 +88,25 @@ export default {
           this.loading = false
           // debugger
         })
-      // this.$i18n.locale = loginLocale
+      // forward them to /{locale}/index.vue (i.e. /fr/)
       this.$router.push(this.localePath({ name: 'index' }))
     }
   }
 }
 </script>
+<style>
+.login-hero::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100%;
+  background-image: url(~@/static/coveredcar.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  opacity: 0.5;
+}
+</style>

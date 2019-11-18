@@ -29,7 +29,7 @@ export default {
   }),
   methods: {
     search () {
-      this.$router.push({ path: `/vehicle/${this.query}` })
+      this.$router.push(this.localePath({ path: `/vehicle/${this.query}` }))
     }
   }
 }

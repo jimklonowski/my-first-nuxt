@@ -1,6 +1,6 @@
 <template>
-  <v-col :cols="12" :md="showMore ? 12 : 6">
-    <v-card shaped>
+  <v-col cols="auto">
+    <v-card min-width="400" shaped>
       <v-card-subtitle>Monthly Fuel Spending</v-card-subtitle>
       <v-card-title class="display-2" v-text="'$231.47'" />
       <v-card-text class="font-italic font-weight-light">
@@ -14,7 +14,6 @@
           <v-icon>{{ showMore ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
         </v-btn>
       </v-card-actions>
-      <v-divider />
       <v-expand-transition>
         <v-data-table v-show="showMore" :headers="headers" :items="items" />
       </v-expand-transition>

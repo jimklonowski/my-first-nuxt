@@ -6,6 +6,8 @@
       <accident-card />
       <fuel-card />
       <maintenance-card />
+      <toll-card />
+      <violation-card />
     </v-row>
   </v-container>
 </template>
@@ -15,6 +17,8 @@ import AccidentCard from '@/components/vehicle/AccidentCard'
 import DriverCard from '@/components/vehicle/DriverCard'
 import FuelCard from '@/components/vehicle/FuelCard'
 import MaintenanceCard from '@/components/vehicle/MaintenanceCard'
+import TollCard from '@/components/vehicle/TollCard'
+import ViolationCard from '@/components/vehicle/ViolationCard'
 import VehicleCard from '@/components/vehicle/VehicleCard'
 
 export default {
@@ -23,7 +27,9 @@ export default {
     DriverCard,
     FuelCard,
     MaintenanceCard,
-    VehicleCard
+    TollCard,
+    VehicleCard,
+    ViolationCard
   },
   middleware: ['auth'],
   /**
