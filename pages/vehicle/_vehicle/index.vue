@@ -6,6 +6,7 @@
       <accident-card />
       <fuel-card />
       <maintenance-card />
+      <invoice-card />
       <toll-card />
       <violation-card />
     </v-row>
@@ -16,6 +17,7 @@
 import AccidentCard from '@/components/vehicle/AccidentCard'
 import DriverCard from '@/components/vehicle/DriverCard'
 import FuelCard from '@/components/vehicle/FuelCard'
+import InvoiceCard from '@/components/vehicle/InvoiceCard'
 import MaintenanceCard from '@/components/vehicle/MaintenanceCard'
 import TollCard from '@/components/vehicle/TollCard'
 import ViolationCard from '@/components/vehicle/ViolationCard'
@@ -26,6 +28,7 @@ export default {
     AccidentCard,
     DriverCard,
     FuelCard,
+    InvoiceCard,
     MaintenanceCard,
     TollCard,
     VehicleCard,

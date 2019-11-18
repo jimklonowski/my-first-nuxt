@@ -1,4 +1,5 @@
 import colors from 'vuetify/es5/util/colors'
+import imageminMozjpeg from 'imagemin-mozjpeg'
 
 export default {
   mode: 'universal',
@@ -23,7 +24,9 @@ export default {
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#fff' },
+  loading: {
+    color: colors.deepPurple
+  },
   /*
   ** Global CSS
   */
@@ -50,7 +53,15 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/auth',
-    'nuxt-i18n'    
+    'nuxt-i18n',
+    ['nuxt-imagemin', {
+      plugins: [
+        imageminMozjpeg({
+          quality: 65,
+          progressive: true
+        })
+      ]
+    }]
   ],
   i18n: {
     locales: [
@@ -124,9 +135,9 @@ export default {
           login: { url: '/auth/login', method: 'post' },
           refresh: { url: '/auth/refresh', method: 'post' },
           user: { url: '/auth/user', method: 'get' },
-          logout: { url: '/api/auth/logout', method: 'post'}
-          //logout: { url: '/auth/logout', method: 'post' },
-          //user: { url: '/auth/user', method: 'get', propertyName: 'user' }
+          logout: { url: '/api/auth/logout', method: 'post' }
+          // logout: { url: '/auth/logout', method: 'post' },
+          // user: { url: '/auth/user', method: 'get', propertyName: 'user' }
         }
       }
     }
@@ -149,7 +160,7 @@ export default {
           // accent: '#005CAF',
         },
         dark: {
-          primary: colors.deepPurple.darken2,
+          primary: colors.deepPurple.lighten2,
           accent: colors.grey.darken3,
           secondary: colors.amber.darken3,
           info: colors.teal.lighten1,
@@ -168,6 +179,7 @@ export default {
     ** You can extend webpack config here
     */
     extend (config, ctx) {
+
     }
   }
 }

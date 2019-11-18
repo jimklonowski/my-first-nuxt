@@ -12,6 +12,7 @@ export default {
   },
   common: {
     cancel: "Annuler",
+    language: "La langue",
     search: "Chercher",
     welcome_to_emkay: "Bienvenue à EMKAY"
   },

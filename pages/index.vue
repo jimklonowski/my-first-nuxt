@@ -24,7 +24,7 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url(~@/static/road.jpg);
+  background-image: url(~@/assets/road.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 50% 50%;

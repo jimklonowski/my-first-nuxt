@@ -1,29 +1,26 @@
 <template>
-  <v-col cols="auto">
-    <v-card min-width="400" shaped>
+  <v-col :cols="12" :md="showMore ? 12 : 6" :lg="showMore ? 6 : 4">
+    <v-card shaped>
       <v-card-subtitle>Monthly Tolls</v-card-subtitle>
-      <v-card-title class="display-2" v-text="'$201.00'" />
+      <v-card-title v-text="'$201.00'" class="display-2" />
       <v-card-text class="font-italic font-weight-light">
         This has
-        <v-chip class="font-weight-regular mx-1 px-1" x-small label color="error">increased</v-chip>
+        <v-chip class="font-weight-regular mx-1 px-1" x-small label color="error">
+          increased
+        </v-chip>
         by 3.3% since last month.
       </v-card-text>
+      <v-expand-transition>
+        <v-card :loading="loading" v-show="showMore" flat>
+          <v-data-table :headers="headers" :items="items" style="min-width:650px;" />
+        </v-card>
+      </v-expand-transition>
       <v-card-actions>
         <v-spacer />
         <v-btn @click="showMore = !showMore" icon>
           <v-icon>{{ showMore ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
         </v-btn>
       </v-card-actions>
-      <v-expand-transition>
-        <v-card :loading="loading" v-show="showMore" flat>
-          <v-card-text>
-            <v-data-table style="min-width:650px;" :headers="headers" :items="items" />
-          </v-card-text>
-          <v-card-actions>
-            <v-btn v-text="'omg'" text />
-          </v-card-actions>
-        </v-card>
-      </v-expand-transition>
     </v-card>
   </v-col>
 </template>

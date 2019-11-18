@@ -1,29 +1,24 @@
 <template>
   <!-- <v-col :cols="12" :md="showMore ? 12 : 6"> -->
   <!-- <v-col :cols="showMore ? 'auto' : 12"> -->
-  <v-col cols="auto">
-    <v-card min-width="400" shaped>
+  <v-col :cols="12" :md="showMore ? 12 : 6" :lg="showMore ? 6 : 4">
+    <v-card shaped>
       <v-card-subtitle>Accidents</v-card-subtitle>
-      <v-card-title class="display-2 success--text" v-text="0" />
+      <v-card-title v-text="0" class="display-2 success--text" />
       <v-card-text class="font-italic font-weight-light">
         nice!
       </v-card-text>
+      <v-expand-transition>
+        <v-card :loading="loading" v-show="showMore" flat>
+          <v-data-table :headers="headers" :items="items" />
+        </v-card>
+      </v-expand-transition>
       <v-card-actions>
         <v-spacer />
         <v-btn @click="showMore = !showMore" icon>
           <v-icon>{{ showMore ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
         </v-btn>
       </v-card-actions>
-      <v-expand-transition>
-        <v-card :loading="loading" v-show="showMore" flat>
-          <v-card-text>
-            <v-data-table style="min-width:650px;" :headers="headers" :items="items" />
-          </v-card-text>
-          <v-card-actions>
-            <v-btn v-text="'omg'" text />
-          </v-card-actions>
-        </v-card>
-      </v-expand-transition>
     </v-card>
   </v-col>
 </template>

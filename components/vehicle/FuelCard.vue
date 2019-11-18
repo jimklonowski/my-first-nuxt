@@ -1,29 +1,38 @@
 <template>
-  <v-col cols="auto">
-    <v-card min-width="400" shaped>
-      <v-card-subtitle>Monthly Fuel Spending</v-card-subtitle>
-      <v-card-title class="display-2" v-text="'$231.47'" />
+  <v-col :cols="12" :md="showMore ? 12 : 6" :lg="showMore ? 6 : 4">
+    <v-card shaped>
+      <v-card-subtitle @click="$router.push(localePath({ path: `/vehicle/${$route.params.vehicle}/fuel` }))">
+        Monthly Fuel Spending
+      </v-card-subtitle>
+      <v-card-title v-text="'$231.47'" class="display-2" />
       <v-card-text class="font-italic font-weight-light">
         This has
-        <v-chip class="caption mx-2 px-2" x-small label color="success">decreased</v-chip>
+        <v-chip class="caption mx-2 px-2" x-small label color="success">
+          decreased
+        </v-chip>
         by 23% since last month.
       </v-card-text>
-      <v-card-actions>
-        <v-spacer />
-        <v-btn icon @click="showMore = !showMore">
-          <v-icon>{{ showMore ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-        </v-btn>
-      </v-card-actions>
       <v-expand-transition>
         <v-data-table v-show="showMore" :headers="headers" :items="items" />
       </v-expand-transition>
+      <v-card-actions>
+        <v-spacer />
+        <v-btn @click="showMore = !showMore" icon>
+          <v-icon>{{ showMore ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+        </v-btn>
+      </v-card-actions>
     </v-card>
   </v-col>
 </template>
 
 <script>
 export default {
-  name: 'fuel-card',
+  name: 'FuelCard',
+  props: {
+    showMore: {
+      type: Boolean
+    }
+  },
   data: () => ({
     headers: [
       {

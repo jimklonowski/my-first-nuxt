@@ -16,9 +16,11 @@
     "@nuxtjs/auth": "git+https://github.com/nuxt-community/auth-module.git#feat/refresh",
     "@nuxtjs/axios": "^5.8.0",
     "axios-mock-adapter": "^1.17.0",
+    "imagemin-mozjpeg": "^8.0.0",
     "jsonwebtoken": "^8.5.1",
     "nuxt": "^2.0.0",
-    "nuxt-i18n": "^6.3.1"
+    "nuxt-i18n": "^6.3.1",
+    "nuxt-imagemin": "^1.0.0"
   },
   "devDependencies": {
     "@nuxtjs/vuetify": "^1.0.0",

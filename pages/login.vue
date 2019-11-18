@@ -1,8 +1,14 @@
 <template>
   <v-container class="login-hero" fill-height>
     <v-row justify="center">
-      <v-col :sm="12" :md="8" :lg="6">
-        <v-card :loading="loading" raised>
+      <v-col cols="auto">
+        <v-card
+          :loading="loading"
+          :min-width="400"
+          :style="{ opacity: $vuetify.theme.dark ? 0.7 : 1.0 }"
+          outlined
+          raised
+        >
           <v-form ref="form" @submit.prevent="login">
             <v-card-title v-t="'auth.login'" />
             <v-card-text>
@@ -34,7 +40,7 @@
                 v-t="'auth.login'"
                 :ripple="false"
                 type="submit"
-                color="primary lighten-2"
+                color="primary"
                 large
                 depressed
                 block
@@ -97,6 +103,7 @@ export default {
 }
 </script>
 <style>
+input:-webkit-autofill { transition: all 0s 50000s; }
 .login-hero::before {
   content: "";
   display: block;
@@ -105,10 +112,16 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url(~@/static/coveredcar.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 50% 50%;
+}
+.theme--dark .login-hero::before {
+  background-image: url(~@/assets/coveredcar--dark.jpg);
   opacity: 0.5;
+}
+.theme--light .login-hero::before {
+  background-image: url(~@/assets/coveredcar--light.jpg);
+  opacity: 1.0;
 }
 </style>

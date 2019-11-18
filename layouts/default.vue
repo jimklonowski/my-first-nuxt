@@ -8,6 +8,20 @@
       disable-route-watcher
       app
     >
+      <template v-if="$auth.loggedIn" #prepend>
+        <v-list-item class="pa-4">
+          <v-list-item-avatar color="primary darken-2 white--text">
+            EM
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <v-list-item-title>EM102</v-list-item-title>
+            <v-list-item-subtitle>JCK JCK JCK JCK</v-list-item-subtitle>
+            <v-list-item-subtitle>wow</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+        <v-divider />
+      </template>
+
       <v-list>
         <v-list-item
           v-for="(item, i) in items"
@@ -48,12 +62,6 @@
       </v-btn>
 
       <language-picker />
-
-      <v-avatar v-if="$auth.loggedIn" size="48" color="primary">
-        <span class="white--text body-1">
-          {{ $auth.user.username }}
-        </span>
-      </v-avatar>
     </v-app-bar>
     <v-content>
       <!-- main router view -->
