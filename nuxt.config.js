@@ -2,6 +2,9 @@ import colors from 'vuetify/es5/util/colors'
 
 export default {
   mode: 'universal',
+  router: {
+    base: '/nuxt/'
+  },
   /*
   ** Headers of the page
   */
@@ -73,7 +76,7 @@ export default {
     defaultLocale: 'en',
 
     strategy: 'prefix_and_default',
-    detectBrowserLanguage: true,
+    detectBrowserLanguage: false,
     noPrefixDefaultLocale: false,
     redirectCookieKey: true,
     useRedirectCookie: true,
@@ -105,7 +108,7 @@ export default {
     redirect: {
       login: '/login',
       logout: '/login',
-      home: '/'
+      home: false
     },
     strategies: {
       local: {

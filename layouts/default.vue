@@ -48,7 +48,7 @@
 
       <language-picker />
 
-      <v-avatar size="48" color="primary">
+      <v-avatar v-if="$auth.loggedIn" size="48" color="primary">
         <span class="white--text body-1">
           {{ $auth.user.username }}
         </span>

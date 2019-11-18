@@ -70,6 +70,7 @@ export default {
       // https://github.com/nuxt-community/auth-module/blob/feat/refresh/examples/demo/pages/login.vue
       // https://github.com/nuxt-community/auth-module/blob/feat/refresh/examples/api/auth.js
       this.loading = true
+      // const loginLocale = this.$i18n.locale
       await this.$auth
         .loginWith('local', {
           data: {
@@ -79,13 +80,15 @@ export default {
           }
         })
         .catch((e) => {
-          debugger
+          // debugger
           this.error = e + ''
         })
         .finally((a) => {
           this.loading = false
+          // debugger
         })
-      this.$router.push('/')
+      // this.$i18n.locale = loginLocale
+      this.$router.push(this.localePath({ name: 'index' }))
     }
   }
 }
