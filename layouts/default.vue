@@ -2,6 +2,7 @@
   <v-app dark>
     <v-navigation-drawer
       v-model="drawer"
+      v-if="$auth.loggedIn"
       clipped
       fixed
       app
@@ -10,7 +11,7 @@
         <v-list-item
           v-for="(item, i) in items"
           :key="i"
-          :to="item.to"
+          :to="localePath(item.to)"
           router
           exact
         >
@@ -23,7 +24,7 @@
         </v-list-item>
       </v-list>
       <template v-if="$auth.loggedIn" #append>
-        <v-list-item @click="$auth.logout()">
+        <v-list-item @click="logout">
           <v-list-item-action>
             <v-icon v-text="'mdi-logout'" />
           </v-list-item-action>
@@ -46,17 +47,16 @@
       </v-btn>
 
       <language-picker />
-      <!-- <v-btn
-        @click.stop="rightDrawer = !rightDrawer"
-        icon
-      >
-        <v-icon>mdi-menu</v-icon>
-      </v-btn> -->
+
+      <v-avatar size="48" color="primary">
+        <span class="white--text body-1">
+          {{ $auth.user.username }}
+        </span>
+      </v-avatar>
     </v-app-bar>
     <v-content>
-      <v-container>
-        <nuxt />
-      </v-container>
+      <!-- main router view -->
+      <nuxt />
     </v-content>
     <!-- <v-navigation-drawer
       v-model="rightDrawer"
@@ -97,13 +97,13 @@ export default {
           icon: 'mdi-apps',
           title: 'Home',
           key: 'navigation.home',
-          to: '/'
+          to: { name: 'index' }
         },
         {
           icon: 'mdi-chart-bubble',
           title: 'Vehicle Dashboard',
           key: 'navigation.vehicle_dashboard',
-          to: '/vehicle'
+          to: { name: 'vehicle' }
         }
         // {
         //   icon: 'mdi-login',
@@ -116,6 +116,12 @@ export default {
       right: true,
       rightDrawer: false,
       title: 'EMKAY Nuxt.js'
+    }
+  },
+  methods: {
+    async logout () {
+      await this.$auth.logout()
+      this.$auth.redirect('/')
     }
   }
 }

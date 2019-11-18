@@ -12,7 +12,7 @@
     <v-card>
       <v-list>
         <v-list-item v-for="locale in availableLocales" :key="locale.code">
-          <v-btn :to="switchLocalePath(locale.code)" small text nuxt>
+          <v-btn :to="switchLocalePath(locale.code)" small text block nuxt>
             {{ locale.name }}
           </v-btn>
         </v-list-item>

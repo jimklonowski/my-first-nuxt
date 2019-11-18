@@ -3,7 +3,15 @@
     fixed
     app
   >
-    <v-btn to="/" x-small depressed text>
+    <v-btn
+      disabled
+      :ripple="false"
+      color="secondary"
+      depressed
+      x-small
+      text
+      nuxt
+    >
       <v-icon v-text="'mdi-copyright'" class="mr-2" x-small />
       2019 - EMKAY, Inc.
     </v-btn>

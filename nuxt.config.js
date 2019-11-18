@@ -71,6 +71,13 @@ export default {
       }
     ],
     defaultLocale: 'en',
+
+    strategy: 'prefix_and_default',
+    detectBrowserLanguage: true,
+    noPrefixDefaultLocale: false,
+    redirectCookieKey: true,
+    useRedirectCookie: true,
+
     lazy: true,
     langDir: 'lang/',
     vueI18n: {
@@ -95,6 +102,11 @@ export default {
         src: '~/plugins/mock-axios'
       }
     ],
+    redirect: {
+      login: '/login',
+      logout: '/login',
+      home: '/'
+    },
     strategies: {
       local: {
         _scheme: 'refresh',
@@ -126,13 +138,15 @@ export default {
       dark: true,
       themes: {
         light: {
-          primary: '#1867C0',
-          secondary: '#5CBBF6',
-          tertiary: '#E57373',
-          accent: '#005CAF',
+          primary: colors.deepPurple,
+          accent: colors.amber.darken3,
+          secondary: colors.amber.darken3,
+          info: colors.teal.lighten2
+          // warning: colors.amber.base,
+          // accent: '#005CAF',
         },
         dark: {
-          primary: colors.blue.darken2,
+          primary: colors.deepPurple.darken2,
           accent: colors.grey.darken3,
           secondary: colors.amber.darken3,
           info: colors.teal.lighten1,

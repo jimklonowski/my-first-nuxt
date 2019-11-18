@@ -1,19 +1,29 @@
 <template>
-  <v-row no-gutters>
-    <v-col cols="12" lg="6">
-      <vehicle-information-card />
-    </v-col>
-    <v-col cols="12" lg="6">
-      
-    </v-col>
-  </v-row>
+  <v-container>
+    <v-row>
+      <vehicle-card />
+      <driver-card />
+      <accident-card />
+      <fuel-card />
+      <maintenance-card />
+    </v-row>
+  </v-container>
 </template>
 
 <script>
-import VehicleInformationCard from '@/components/vehicle/VehicleInformationCard'
+import AccidentCard from '@/components/vehicle/AccidentCard'
+import DriverCard from '@/components/vehicle/DriverCard'
+import FuelCard from '@/components/vehicle/FuelCard'
+import MaintenanceCard from '@/components/vehicle/MaintenanceCard'
+import VehicleCard from '@/components/vehicle/VehicleCard'
+
 export default {
   components: {
-    VehicleInformationCard
+    AccidentCard,
+    DriverCard,
+    FuelCard,
+    MaintenanceCard,
+    VehicleCard
   },
   middleware: ['auth'],
   /**

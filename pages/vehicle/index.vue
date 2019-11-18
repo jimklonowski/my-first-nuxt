@@ -1,7 +1,5 @@
 <template>
-  <v-row>
-    <h1>Wow</h1>
-  </v-row>
+  <span>wow</span>
 </template>
 
 <script>
