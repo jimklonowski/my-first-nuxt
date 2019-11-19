@@ -1,5 +1,12 @@
 /* eslint-disable quotes */
 export default {
+  actions: {
+    edit_custom_labels: "Edit Custom Labels",
+    report_expenses: "Report Expenses",
+    schedule_ac: "Schedule A/C",
+    terminate_vehicle: "Terminate Vehicle",
+    used_vehicle_quote: "Used Vehicle Quote"
+  },
   auth: {
     account: "Account",
     email: "Email",
@@ -38,5 +45,8 @@ export default {
     },
     home: "Home",
     vehicle_dashboard: "Vehicle Dashboard"
+  },
+  vehicle_dashboard: {
+    search_placeholder: "Find a vehicle, driver, or website feature..."
   }
 }

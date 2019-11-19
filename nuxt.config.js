@@ -37,7 +37,8 @@ export default {
   */
   plugins: [
     '~/plugins/mock-axios',
-    { src: '~/plugins/vue-masonry', ssr: false }
+    { src: '~/plugins/vue-grid', ssr: false }
+    // { src: '~/plugins/vue-masonry', ssr: false }
   ],
   /*
   ** Nuxt.js dev-modules

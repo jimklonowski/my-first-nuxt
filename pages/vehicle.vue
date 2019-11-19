@@ -3,21 +3,6 @@
     <v-container v-if="!$route.params.vehicle" class="vehicle-hero" fill-height>
       <v-row justify="center">
         <v-col cols="12" md="8">
-          <!-- if we're just at /vehicle, show search box -->
-          <!-- <v-card>
-            <v-form @submit.prevent="search">
-              <v-card-title>Vehicle Dashboard Search?</v-card-title>
-              <v-card-text>
-                <v-text-field v-model="query" :label="$t('common.search')" outlined />
-              </v-card-text>
-              <v-card-actions>
-                <v-btn type="submit">
-                  Submit
-                </v-btn>
-              </v-card-actions>
-            </v-form>
-          </v-card> -->
-
           <v-form @submit.stop="onSubmit">
             <v-autocomplete
               v-model="selection"
@@ -26,9 +11,6 @@
               :items="items"
               :menu-props="{ 'nudgeBottom': 10, 'maxHeight': 360 }"
               :search-input.sync="query"
-              @change="onSubmit"
-              @click:append-outer="onSubmit"
-              @keydown.enter.native.prevent="onSubmit"
               item-value="vehicle_number"
               item-text="description"
               autocomplete="off"
@@ -39,12 +21,15 @@
               return-object
               full-width
               append-outer-icon="mdi-search-web"
+              @change="onSubmit"
+              @click:append-outer="onSubmit"
+              @keydown.enter.native.prevent="onSubmit"
             >
               <template #progress>
                 <v-progress-linear
                   :buffer-value="0"
-                  color="warning lighten-2"
-                  height="5"
+                  color="primary lighten-2"
+                  height="4"
                   absolute
                   indeterminate
                   stream
@@ -52,15 +37,15 @@
               </template>
               <template #no-data>
                 <v-list-item dense>
-                  <v-list-item-title v-t="'vehicle_dashboard.vehicle_search_placeholder'" />
+                  <v-list-item-title v-t="'vehicle_dashboard.search_placeholder'" />
                 </v-list-item>
               </template>
               <template #selection="data">
                 {{ data.item.vehicle_number }}
               </template>
               <template #item="data">
-                <v-list-item-avatar :size="60" tile color="primary lighten-2">
-                  <span class="white--text">{{ data.item.vehicle_number }}</span>
+                <v-list-item-avatar :size="48" color="primary lighten-2">
+                  <span class="white--text caption">{{ data.item.vehicle_number }}</span>
                 </v-list-item-avatar>
                 <v-list-item-content>
                   <v-list-item-title v-text="data.item.description" />

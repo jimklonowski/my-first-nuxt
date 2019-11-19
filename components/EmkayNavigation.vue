@@ -1,8 +1,8 @@
 <template>
   <nav>
     <v-navigation-drawer
-      v-model="drawer"
       v-if="$auth.loggedIn"
+      v-model="drawer"
       clipped
       fixed
       disable-route-watcher
@@ -55,9 +55,9 @@
       app
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title v-text="title" />
+      <v-toolbar-title v-text="'EMKAY'" />
       <v-spacer />
-      <v-btn @click.stop="$vuetify.theme.dark = !$vuetify.theme.dark" icon>
+      <v-btn icon @click.stop="$vuetify.theme.dark = !$vuetify.theme.dark">
         <v-icon>{{ $vuetify.theme.dark ? 'mdi-brightness-7' : 'mdi-brightness-5' }}</v-icon>
       </v-btn>
 

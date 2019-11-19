@@ -1,5 +1,12 @@
 /* eslint-disable quotes */
 export default {
+  actions: {
+    edit_custom_labels: "Editer les étiquettes personnalisées",
+    report_expenses: "Signaler des dépenses",
+    schedule_ac: "Planifier A/C",
+    terminate_vehicle: "Terminer le véhicule",
+    used_vehicle_quote: "Devis de véhicule d'occasion"
+  },
   auth: {
     account: "Compte",
     email: "Email",
@@ -38,5 +45,8 @@ export default {
     },
     home: "Accueil",
     vehicle_dashboard: "Tableau du véhicule"
+  },
+  vehicle_dashboard: {
+    search_placeholder: "Rechercher un véhicule, un conducteur ou un site..."
   }
 }

@@ -1,8 +1,5 @@
 <template>
-  <v-footer
-    fixed
-    app
-  >
+  <v-footer fixed app>
     <v-btn
       :ripple="false"
       disabled
@@ -12,13 +9,13 @@
       text
       nuxt
     >
-      <v-icon v-text="'mdi-copyright'" class="mr-2" x-small />
+      <v-icon class="mr-2" x-small v-text="'mdi-copyright'" />
       2019 - EMKAY, Inc.
     </v-btn>
     <v-spacer />
     <v-menu v-for="(menu, i) in menus" :key="i" top offset-y>
       <template #activator="{ on }">
-        <v-btn v-on="on" x-small text>
+        <v-btn x-small text v-on="on">
           {{ $t(menu.key) }}
         </v-btn>
       </template>

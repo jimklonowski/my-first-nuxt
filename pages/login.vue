@@ -47,7 +47,6 @@
               />
               <v-btn
                 v-t="'auth.forgot_password'"
-                @click=""
                 tabindex="-1"
                 small
                 text
