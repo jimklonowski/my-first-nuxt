@@ -2,7 +2,7 @@
   <!-- <v-col :cols="12" :md="showMore ? 12 : 6"> -->
   <!-- <v-col :cols="showMore ? 'auto' : 12"> -->
   <v-col :cols="12" :md="showMore ? 12 : 6" :lg="showMore ? 6 : 4">
-    <v-card shaped>
+    <v-card outlined shaped>
       <v-card-subtitle>Accidents</v-card-subtitle>
       <v-card-title v-text="0" class="display-2 success--text" />
       <v-card-text class="font-italic font-weight-light">

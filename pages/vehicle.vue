@@ -1,40 +1,164 @@
 <template>
-  <section>
-    <v-col v-if="!$route.params.vehicle">
-      <!-- if we're just at /vehicle, show search box -->
-      <v-form @submit.prevent="search">
-        <v-card width="600">
-          <v-card-title>Vehicle Dashboard Search?</v-card-title>
-          <v-card-text>
-            <v-text-field v-model="query" :label="$t('common.search')" outlined />
-          </v-card-text>
-          <v-card-actions>
-            <v-btn type="submit">
-              Submit
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-form>
-    </v-col>
+  <span>
+    <v-container v-if="!$route.params.vehicle" class="vehicle-hero" fill-height>
+      <v-row justify="center">
+        <v-col cols="12" md="8">
+          <!-- if we're just at /vehicle, show search box -->
+          <!-- <v-card>
+            <v-form @submit.prevent="search">
+              <v-card-title>Vehicle Dashboard Search?</v-card-title>
+              <v-card-text>
+                <v-text-field v-model="query" :label="$t('common.search')" outlined />
+              </v-card-text>
+              <v-card-actions>
+                <v-btn type="submit">
+                  Submit
+                </v-btn>
+              </v-card-actions>
+            </v-form>
+          </v-card> -->
+
+          <v-form @submit.stop="onSubmit">
+            <v-autocomplete
+              v-model="selection"
+              :label="$t('common.search')"
+              :loading="loading"
+              :items="items"
+              :menu-props="{ 'nudgeBottom': 10, 'maxHeight': 360 }"
+              :search-input.sync="query"
+              @change="onSubmit"
+              @click:append-outer="onSubmit"
+              @keydown.enter.native.prevent="onSubmit"
+              item-value="vehicle_number"
+              item-text="description"
+              autocomplete="off"
+              clearable
+              solo
+              hide-details
+              no-filter
+              return-object
+              full-width
+              append-outer-icon="mdi-search-web"
+            >
+              <template #progress>
+                <v-progress-linear
+                  :buffer-value="0"
+                  color="warning lighten-2"
+                  height="5"
+                  absolute
+                  indeterminate
+                  stream
+                />
+              </template>
+              <template #no-data>
+                <v-list-item dense>
+                  <v-list-item-title v-t="'vehicle_dashboard.vehicle_search_placeholder'" />
+                </v-list-item>
+              </template>
+              <template #selection="data">
+                {{ data.item.vehicle_number }}
+              </template>
+              <template #item="data">
+                <v-list-item-avatar :size="60" tile color="primary lighten-2">
+                  <span class="white--text">{{ data.item.vehicle_number }}</span>
+                </v-list-item-avatar>
+                <v-list-item-content>
+                  <v-list-item-title v-text="data.item.description" />
+                  <v-list-item-subtitle v-text="data.item.driver_name" />
+                </v-list-item-content>
+              </template>
+            </v-autocomplete>
+          </v-form>
+        </v-col>
+      </v-row>
+    </v-container>
     <!-- If a vehicle is selected, show the nested /vehicle/_vehicle route -->
     <nuxt-child v-else />
-  </section>
+  </span>
 </template>
 
 <script>
 export default {
   name: 'Vehicle',
   data: () => ({
-    query: ''
+    loading: false,
+    query: null,
+    results: [],
+    driverResults: [],
+    vehicleResults: [],
+    selection: null
   }),
+  computed: {
+    items () {
+      if (!this.results.length) { return [] }
+      // remove duplicates
+      const res = this.results.map((result) => { return { ...result } })
+      return res
+    },
+    schema () {
+      return {
+        vehicle: {
+          label: this.$t('common.search'),
+          type: 'text',
+          placeholder: this.$t('vehicle_dashboard.search_placeholder'),
+          hint: this.$t('vehicle_dashboard.search_hint'),
+          counter: 6,
+          appendOuterIcon: 'send',
+          required: true,
+          persistentHint: true,
+          autocomplete: false,
+          outlined: true
+        }
+      }
+    }
+  },
+  watch: {
+    async query () {
+      if (this.loading) { return }
+      const self = this
+      this.loading = true
+      const vehicleUrl = '/vehicles/search'
+      const driverUrl = '/drivers/search'
+
+      // Lazily load input items
+      const vehicleRes = await this.$axios.get(vehicleUrl, { params: { query: this.query } })
+      const driverRes = await this.$axios.get(driverUrl, { params: { query: this.query } })
+      self.results = [...vehicleRes.data, ...driverRes.data]
+      this.loading = false
+    }
+  },
   methods: {
-    search () {
-      this.$router.push(this.localePath({ path: `/vehicle/${this.query}` }))
+    onSubmit () {
+      this.loading = true
+      if (this.selection && this.selection.vehicle_number) {
+        // this.$router.push(this.localePath({ path: `/vehicle/${this.query}` }))
+        this.$router.push(this.localePath({ path: `/vehicle/${this.selection.vehicle_number}` }))
+      }
+      this.loading = false
     }
   }
 }
 </script>
 
 <style>
-
+.vehicle-hero::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+}
+.theme--dark .vehicle-hero::before {
+  background-image: url(~@/assets/coveredcar--dark.jpg);
+  opacity: 0.5;
+}
+.theme--light .vehicle-hero::before {
+  background-image: url(~@/assets/coveredcar--light.jpg);
+  opacity: 1.0;
+}
 </style>

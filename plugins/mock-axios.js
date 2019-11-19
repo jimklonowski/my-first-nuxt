@@ -39,7 +39,60 @@ export default function ({ $axios, redirect }) {
       console.log('Returning mocked user EM102-JCK')
       return [200, { user: { account: 'EM102', username: 'JCK', token } }]
     })
-    // .onAny().passThrough()
+    .onGet('/vehicles/search')
+    .reply(function (config) {
+      let query = config.params.query
+      if (query) {
+        query = query.toLowerCase()
+      }
+      const vehicles = [
+        {
+          vehicle_number: 'E22444',
+          driver_name: 'Andrew Griffith',
+          description: '2012 Jeep Compass'
+        },
+        {
+          vehicle_number: '442545',
+          driver_name: 'Monty Burns',
+          description: '2019 TESLA Model X'
+        },
+        {
+          vehicle_number: '0F016D',
+          driver_name: 'Jim Klonowski',
+          description: '1994 Ford Bronco'
+        }
+      ]
+      const filtered = vehicles.filter(v => v.vehicle_number.toLowerCase().includes(query))
+
+      return [200, filtered]
+    })
+    .onGet('/drivers/search')
+    .reply(function (config) {
+      let query = config.params.query
+      if (query) {
+        query = query.toLowerCase()
+      }
+      const vehicles = [
+        {
+          vehicle_number: 'E22444',
+          driver_name: 'Andrew Griffith',
+          description: '2012 Jeep Compass'
+        },
+        {
+          vehicle_number: '666069',
+          driver_name: 'Lucien Greaves',
+          description: '2012 TESLA Model S'
+        },
+        {
+          vehicle_number: '442545',
+          driver_name: 'J. Klo Klonowski',
+          description: '1990 Ford Crown Victoria'
+        }
+      ]
+      const filtered = vehicles.filter(v => v.driver_name.toLowerCase().includes(query))
+      return [200, filtered]
+    })
+    .onAny().passThrough()
   // debugger
   // $axios.onRequest((config) => {
   //   console.log(`Making request to ${config.url}`)

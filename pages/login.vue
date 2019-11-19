@@ -4,7 +4,7 @@
       <v-col cols="auto">
         <v-card
           :loading="loading"
-          :min-width="400"
+          :min-width="300"
           :style="{ opacity: $vuetify.theme.dark ? 0.7 : 1.0 }"
           outlined
           raised

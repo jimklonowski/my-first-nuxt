@@ -135,7 +135,7 @@ export default {
           login: { url: '/auth/login', method: 'post' },
           refresh: { url: '/auth/refresh', method: 'post' },
           user: { url: '/auth/user', method: 'get' },
-          logout: { url: '/api/auth/logout', method: 'post' }
+          logout: { url: '/auth/logout', method: 'post' }
           // logout: { url: '/auth/logout', method: 'post' },
           // user: { url: '/auth/user', method: 'get', propertyName: 'user' }
         }

@@ -24,6 +24,7 @@ import ViolationCard from '@/components/vehicle/ViolationCard'
 import VehicleCard from '@/components/vehicle/VehicleCard'
 
 export default {
+  name: 'VehicleDashboard',
   components: {
     AccidentCard,
     DriverCard,
@@ -41,7 +42,7 @@ export default {
    */
   validate ({ params }) {
     // To test, vehicle param must be a number
-    return /^\d+$/.test(params.vehicle)
+    return /^[a-z0-9]+$/i.test(params.vehicle)
   }
 }
 </script>

@@ -30,7 +30,12 @@
 
 <script>
 export default {
-  name: 'InvoiceCard'
+  name: 'InvoiceCard',
+  data: () => ({
+    showMore: false,
+    headers: [],
+    items: []
+  })
 }
 </script>
 

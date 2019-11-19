@@ -54,7 +54,7 @@ export default {
         ]
       },
       {
-        key: 'navigation.footer.technology',
+        key: 'navigation.footer.tech',
         items: [
           { title: 'Celsius', key: 'navigation.footer.celsius', to: {} },
           { title: 'Driver 360', key: 'navigation.footer.driver_360', to: {} },

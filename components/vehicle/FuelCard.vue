@@ -53,8 +53,7 @@ export default {
       { date: '2019-01-04', location: 'BP Plainfield', type: 'Premium', quantity: '20', amount: '$43.51' },
       { date: '2019-01-05', location: 'BP Plainfield', type: 'Diesel', quantity: '22', amount: '$45.69' }
     ],
-    loading: false,
-    showMore: false
+    loading: false
   })
 }
 </script>
