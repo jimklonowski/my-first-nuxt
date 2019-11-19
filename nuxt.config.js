@@ -36,14 +36,15 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '~/plugins/mock-axios'
+    '~/plugins/mock-axios',
+    { src: '~/plugins/vue-masonry', ssr: false }
   ],
   /*
   ** Nuxt.js dev-modules
   */
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
-    '@nuxtjs/eslint-module',
+    // '@nuxtjs/eslint-module',
     '@nuxtjs/vuetify'
   ],
   /*

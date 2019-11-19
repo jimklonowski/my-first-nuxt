@@ -1,19 +1,22 @@
 <template>
   <v-container>
-    <v-row>
-      <vehicle-card />
-      <driver-card />
-      <accident-card />
-      <fuel-card />
-      <maintenance-card />
-      <invoice-card />
-      <toll-card />
-      <violation-card />
-    </v-row>
+    <no-ssr>
+      <v-row v-masonry transition-duration="300ms" item-selector=".dashboard-item" class="masonry-container">
+        <vehicle-card v-masonry-tile class="dashboard-item" />
+        <driver-card v-masonry-tile class="dashboard-item" />
+        <accident-card v-masonry-tile class="dashboard-item" />
+        <fuel-card v-masonry-tile class="dashboard-item" />
+        <maintenance-card v-masonry-tile class="dashboard-item" />
+        <invoice-card v-masonry-tile class="dashboard-item" />
+        <toll-card v-masonry-tile class="dashboard-item" />
+        <violation-card v-masonry-tile class="dashboard-item" />
+      </v-row>
+    </no-ssr>
   </v-container>
 </template>
 
 <script>
+import NoSSR from 'vue-no-ssr'
 import AccidentCard from '@/components/vehicle/AccidentCard'
 import DriverCard from '@/components/vehicle/DriverCard'
 import FuelCard from '@/components/vehicle/FuelCard'
@@ -26,6 +29,7 @@ import VehicleCard from '@/components/vehicle/VehicleCard'
 export default {
   name: 'VehicleDashboard',
   components: {
+    'no-ssr': NoSSR,
     AccidentCard,
     DriverCard,
     FuelCard,
@@ -34,6 +38,16 @@ export default {
     TollCard,
     VehicleCard,
     ViolationCard
+  },
+  methods: {
+    redraw () {
+      this.$redrawVueMasonry()
+    }
+  },
+  mounted () {
+    if (typeof this.$redrawVueMasonry === 'function') {
+      this.$redrawVueMasonry()
+    }
   },
   middleware: ['auth'],
   /**

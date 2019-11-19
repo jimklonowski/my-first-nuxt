@@ -1,6 +1,7 @@
 <template>
-  <v-col :cols="12" :md="showMore ? 12 : 6" :lg="showMore ? 6 : 4">
-    <v-card shaped>
+  <!-- <v-col :cols="12" :md="showMore ? 12 : 6" :lg="showMore ? 6 : 4"> -->
+  <v-col cols="auto">
+    <v-card min-width="350" shaped>
       <v-card-subtitle @click="$router.push(localePath({ path: `/vehicle/${$route.params.vehicle}/fuel` }))">
         Monthly Fuel Spending
       </v-card-subtitle>

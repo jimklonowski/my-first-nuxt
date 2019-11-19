@@ -20,7 +20,9 @@
     "jsonwebtoken": "^8.5.1",
     "nuxt": "^2.0.0",
     "nuxt-i18n": "^6.3.1",
-    "nuxt-imagemin": "^1.0.0"
+    "nuxt-imagemin": "^1.0.0",
+    "vue-masonry": "^0.11.8",
+    "vue-no-ssr": "^1.1.1"
   },
   "devDependencies": {
     "@nuxtjs/vuetify": "^1.0.0",
