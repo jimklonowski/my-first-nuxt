@@ -58,7 +58,7 @@
       <v-toolbar-title v-text="'EMKAY'" />
       <v-spacer />
       <v-btn icon @click.stop="$vuetify.theme.dark = !$vuetify.theme.dark">
-        <v-icon>{{ $vuetify.theme.dark ? 'mdi-brightness-7' : 'mdi-brightness-5' }}</v-icon>
+        <v-icon>{{ $vuetify.theme.dark ? 'mdi-brightness-4' : 'mdi-brightness-7' }}</v-icon>
       </v-btn>
 
       <language-picker />
@@ -95,7 +95,7 @@ export default {
     fixed: false,
     items: [
       {
-        icon: 'mdi-apps',
+        icon: 'mdi-widgets',
         title: 'Home',
         key: 'navigation.home',
         to: { name: 'index' }
@@ -105,6 +105,12 @@ export default {
         title: 'Vehicle Dashboard',
         key: 'navigation.vehicle_dashboard',
         to: { name: 'vehicle' }
+      },
+      {
+        icon: 'mdi-file-chart',
+        title: 'Reporting',
+        key: 'navigation.reporting',
+        to: { name: 'reporting' }
       }
       // {
       //   icon: 'mdi-login',

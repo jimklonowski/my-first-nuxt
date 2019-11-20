@@ -1,16 +1,17 @@
+import { en, fr, en as ca } from 'vuetify/lib/locale'
 import colors from 'vuetify/es5/util/colors'
 import imageminMozjpeg from 'imagemin-mozjpeg'
 
 export default {
   mode: 'universal',
   router: {
-    base: '/nuxt/'
+    base: process.env.NODE_ENV === 'production' ? '/nuxt/' : '/'
   },
   /*
   ** Headers of the page
   */
   head: {
-    titleTemplate: 'EMKAY ::' + process.env.npm_package_name,
+    titleTemplate: 'EMKAY :: nuxtjs',
     title: process.env.npm_package_name || '',
     meta: [
       { charset: 'utf-8' },
@@ -86,14 +87,13 @@ export default {
         file: 'fr-ca.js'
       }
     ],
+    // defaultLocale: 'en',
     defaultLocale: 'en',
-
     strategy: 'prefix_and_default',
     detectBrowserLanguage: false,
     noPrefixDefaultLocale: false,
     redirectCookieKey: true,
     useRedirectCookie: true,
-
     lazy: true,
     langDir: 'lang/',
     vueI18n: {
@@ -149,6 +149,10 @@ export default {
   ** https://github.com/nuxt-community/vuetify-module
   */
   vuetify: {
+    lang: {
+      locales: { en, fr, ca },
+      current: 'en'
+    },
     customVariables: ['~/assets/variables.scss'],
     theme: {
       dark: true,

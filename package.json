@@ -22,6 +22,7 @@
     "nuxt-i18n": "^6.3.1",
     "nuxt-imagemin": "^1.0.0",
     "vue-grid-layout": "^2.3.7",
+    "vue-json-excel": "^0.2.98",
     "vue-no-ssr": "^1.1.1"
   },
   "devDependencies": {

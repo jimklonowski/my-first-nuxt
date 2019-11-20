@@ -93,10 +93,11 @@ export default {
         })
         .finally((a) => {
           this.loading = false
-          // debugger
+          debugger
+          this.$router.push(this.localePath({ name: 'index' }))
         })
       // forward them to /{locale}/index.vue (i.e. /fr/)
-      this.$router.push(this.localePath({ name: 'index' }))
+      // this.$router.push(this.localePath({ name: 'index' }))
     }
   }
 }

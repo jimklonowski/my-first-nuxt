@@ -20,8 +20,13 @@ export default {
   common: {
     cancel: "Annuler",
     language: "La langue",
+    ok: "OK",
     search: "Chercher",
     welcome_to_emkay: "Bienvenue à EMKAY"
+  },
+  date: {
+    end_date: "Date de fin",
+    start_date: "Date de début"
   },
   navigation: {
     footer: {
@@ -44,6 +49,7 @@ export default {
       geotab: "Geotab"
     },
     home: "Accueil",
+    reporting: "Rapport",
     vehicle_dashboard: "Tableau du véhicule"
   },
   vehicle_dashboard: {
