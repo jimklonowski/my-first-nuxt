@@ -32,13 +32,15 @@ export default {
   ** Global CSS
   */
   css: [
+    './assets/main.scss'
   ],
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
     '~/plugins/mock-axios',
-    { src: '~/plugins/vue-grid', ssr: false }
+    '~/plugins/filters.js'
+    // { src: '~/plugins/vue-grid', ssr: false }
     // { src: '~/plugins/vue-masonry', ssr: false }
   ],
   /*
@@ -58,6 +60,8 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/auth',
     'nuxt-i18n',
+    // Doc: https://github.com/nuxt-community/style-resources-module
+    // '@nuxtjs/style-resources',
     ['nuxt-imagemin', {
       plugins: [
         imageminMozjpeg({
@@ -67,6 +71,9 @@ export default {
       ]
     }]
   ],
+  // styleResources: {
+  //   scss: ['~/assets/main.scss']
+  // },
   i18n: {
     locales: [
       {

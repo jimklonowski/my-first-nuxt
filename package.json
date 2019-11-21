@@ -15,6 +15,7 @@
   "dependencies": {
     "@nuxtjs/auth": "git+https://github.com/nuxt-community/auth-module.git#feat/refresh",
     "@nuxtjs/axios": "^5.8.0",
+    "@nuxtjs/style-resources": "^1.0.0",
     "axios-mock-adapter": "^1.17.0",
     "imagemin-mozjpeg": "^8.0.0",
     "jsonwebtoken": "^8.5.1",

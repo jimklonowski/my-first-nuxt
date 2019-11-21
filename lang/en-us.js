@@ -26,7 +26,10 @@ export default {
     welcome_to_emkay: "Welcome to EMKAY"
   },
   date: {
+    bill_date: "Bill Date",
     end_date: "End Date",
+    service_date: "Service Date",
+    service_time: "Service Time",
     start_date: "Start Date"
   },
   reports: {
@@ -39,8 +42,7 @@ export default {
     fuel_detail_report: "Fuel Detail Report",
     fuel_detail: {
       amount: "Amount",
-      bill_month: "Bill Month",
-      bill_year: "Bill Year",
+      bill_date: "@:date.bill_date",
       bill_sort: "Billing Sort",
       card_number: "Card Number",
       center_code: "Center Code",
@@ -56,7 +58,8 @@ export default {
       emkay_invoice_date: "EMKAY Invoice Date",
       emkay_invoice_number: "EMKAY Invoice Number",
       engine_fuel_type: "Engine Fuel Type",
-      except: "Except",
+      exception: "Exception",
+      fuel_card_vendor: "Fuel Card Vendor",
       fuel_company_name: "Fuel Company Name",
       fuel_company_number: "Fuel Company Number",
       invoice_number: "Invoice Number",
@@ -73,17 +76,16 @@ export default {
       product: "Product",
       product_type: "Product Type",
       quantity: "Quantity",
-      service_date: "Service Date",
-      service_time: "Service Time",
-      sysunit: "Sysunit",
+      service_date: "@:date.service_date",
+      service_time: "@:date.service_time",
       tank_capacity: "Tank Capacity",
       tax_exempt: "Tax Exempt",
-      type: "Type",
+      to_vehicle_dashboard: "To Vehicle Dashboard",
       unit_price: "Unit Price",
       vehicle_make: "Vehicle Make",
       vehicle_model: "Vehicle Model",
       vehicle_number: "Vehicle Number",
-      vin: "VIN",
+      vin: "VIN Number",
       voucher: "Voucher"
     },
     maintenance_detail_report: "Maintenance Detail Report",

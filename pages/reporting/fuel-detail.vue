@@ -10,106 +10,117 @@
               v-model="search"
               append-icon="mdi-search"
               :label="$t('common.search')"
+              clearable
               single-line
               hide-details
             />
           </v-card-title>
-          <v-data-table
-            :loading="loading"
-            :headers="headers"
-            :items="items"
-            :search="search"
-          >
-            <template #loading>
-              <v-skeleton-loader type="table-tbody" tile />
-            </template>
-            <template
-              v-for="header in headers"
-              [`#header.${header.value}`]="{ header }"
+          <v-skeleton-loader :loading="initializing" type="table">
+            <v-data-table
+              :loading="loading"
+              :headers="getHeaders"
+              :items="items"
+              :search="search"
+              class="striped"
             >
-              {{ $t(header.key) }}
-            </template>
-            <template #top>
-              <v-toolbar prominent flat>
-                <v-container>
-                  <v-row>
-                    <v-col cols="6">
-                      <v-menu
-                        ref="start_menu"
-                        v-model="start_menu"
-                        :close-on-content-click="false"
-                        :return-value.sync="start_date"
-                        transition="scale-transition"
-                        offset-y
-                        max-width="290px"
-                        min-width="290px"
-                      >
-                        <template #activator="{ on }">
-                          <v-text-field
+              <!-- v-data-table slot="top" -->
+              <template #top>
+                <v-toolbar prominent flat>
+                  <v-container>
+                    <v-row>
+                      <v-col cols="6">
+                        <v-menu
+                          ref="start_menu"
+                          v-model="start_menu"
+                          :close-on-content-click="false"
+                          :return-value.sync="start_date"
+                          transition="scale-transition"
+                          offset-y
+                          max-width="290px"
+                          min-width="290px"
+                        >
+                          <template #activator="{ on }">
+                            <v-text-field
+                              v-model="start_date"
+                              :label="$t('date.start_date')"
+                              prepend-icon="mdi-calendar"
+                              readonly
+                              v-on="on"
+                            />
+                          </template>
+                          <v-date-picker
                             v-model="start_date"
-                            :label="$t('date.start_date')"
-                            prepend-icon="mdi-calendar"
-                            readonly
-                            v-on="on"
-                          />
-                        </template>
-                        <v-date-picker
-                          v-model="start_date"
-                          type="month"
-                          no-title
-                          scrollable
+                            type="month"
+                            no-title
+                            scrollable
+                          >
+                            <v-spacer />
+                            <v-btn text color="primary" @click="start_menu = false">
+                              {{ $t('common.cancel') }}
+                            </v-btn>
+                            <v-btn text color="primary" @click="$refs.start_menu.save(start_date)">
+                              {{ $t('common.ok') }}
+                            </v-btn>
+                          </v-date-picker>
+                        </v-menu>
+                      </v-col>
+                      <v-col cols="6">
+                        <v-menu
+                          ref="end_menu"
+                          v-model="end_menu"
+                          :close-on-content-click="false"
+                          :return-value.sync="end_date"
+                          transition="scale-transition"
+                          offset-y
+                          max-width="290px"
+                          min-width="290px"
                         >
-                          <v-spacer />
-                          <v-btn text color="primary" @click="start_menu = false">
-                            {{ $t('common.cancel') }}
-                          </v-btn>
-                          <v-btn text color="primary" @click="$refs.start_menu.save(start_date)">
-                            {{ $t('common.ok') }}
-                          </v-btn>
-                        </v-date-picker>
-                      </v-menu>
-                    </v-col>
-                    <v-col cols="6">
-                      <v-menu
-                        ref="end_menu"
-                        v-model="end_menu"
-                        :close-on-content-click="false"
-                        :return-value.sync="end_date"
-                        transition="scale-transition"
-                        offset-y
-                        max-width="290px"
-                        min-width="290px"
-                      >
-                        <template #activator="{ on }">
-                          <v-text-field
+                          <template #activator="{ on }">
+                            <v-text-field
+                              v-model="end_date"
+                              :label="$t('date.end_date')"
+                              prepend-icon="mdi-calendar"
+                              readonly
+                              v-on="on"
+                            />
+                          </template>
+                          <v-date-picker
                             v-model="end_date"
-                            :label="$t('date.end_date')"
-                            prepend-icon="mdi-calendar"
-                            readonly
-                            v-on="on"
-                          />
-                        </template>
-                        <v-date-picker
-                          v-model="end_date"
-                          type="month"
-                          no-title
-                          scrollable
-                        >
-                          <v-spacer />
-                          <v-btn text color="primary" @click="end_menu = false">
-                            {{ $t('common.cancel') }}
-                          </v-btn>
-                          <v-btn text color="primary" @click="$refs.end_menu.save(end_date)">
-                            {{ $t('common.ok') }}
-                          </v-btn>
-                        </v-date-picker>
-                      </v-menu>
-                    </v-col>
-                  </v-row>
-                </v-container>
-              </v-toolbar>
-            </template>
-          </v-data-table>
+                            type="month"
+                            no-title
+                            scrollable
+                          >
+                            <v-spacer />
+                            <v-btn text color="primary" @click="end_menu = false">
+                              {{ $t('common.cancel') }}
+                            </v-btn>
+                            <v-btn text color="primary" @click="$refs.end_menu.save(end_date)">
+                              {{ $t('common.ok') }}
+                            </v-btn>
+                          </v-date-picker>
+                        </v-menu>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </v-toolbar>
+              </template>
+
+              <!-- format 'amount' as currency -->
+              <template #item.amount="{ item }">
+                {{ item.amount | currency }}
+              </template>
+
+              <!-- format 'card_number' as a chip -->
+              <template #item.card_number="{ item }">
+                <v-chip :outlined="$vuetify.theme.dark" small v-text="item.card_number" />
+              </template>
+
+              <!-- format vehicle_number as a vehicle-dashboard link -->
+              <template #item.vehicle_number="{ item }">
+                <v-btn small :title="$t(`${i18nNamespace}.to_vehicle_dashboard`)" :to="localePath({ path: `/vehicle/${item.vehicle_number}` })" v-text="item.vehicle_number" />
+              </template>
+            </v-data-table>
+          </v-skeleton-loader>
         </v-card>
       </v-col>
     </v-row>
@@ -120,68 +131,386 @@
 export default {
   name: 'FuelDetail',
   data: () => ({
+    i18nNamespace: 'reports.fuel_detail',
+    error: null,
+    initializing: true,
     loading: false,
     start_date: '2019-10',
     start_menu: false,
     end_date: '2019-10',
     end_menu: false,
     search: '',
-    headers: [
-      { text: 'Amount', key: 'reports.fuel_detail.amount', align: 'start', width: '120', value: 'amount' },
-      { text: 'Bill Date', key: 'reports.fuel_detail.bill_date', align: 'start', width: '120', value: 'bill_date' },
-      // { text: 'Bill Month', key: 'reports.fuel_detail.bill_month', align: 'start', width: '120', value: 'bill_month' },
-      // { text: 'Bill Year', key: 'reports.fuel_detail.bill_year', align: 'start', width: '120', value: 'bill_year' },
-      { text: 'Billing Sort', key: 'reports.fuel_detail.bill_sort', align: 'start', width: '150', value: 'bill_sort' },
-      { text: 'Card Number', key: 'reports.fuel_detail.card_number', align: 'start', width: '130', value: 'card_number' },
-      { text: 'Center Code', key: 'reports.fuel_detail.center_code', align: 'start', width: '120', value: 'center_code' },
-      { text: 'Center Name', key: 'reports.fuel_detail.center_name', align: 'start', width: '150', value: 'center_name' },
-      { text: 'Client Use 1', key: 'reports.fuel_detail.client_use_1', align: 'start', width: '120', value: 'client_use_1' },
-      { text: 'Client Use 2', key: 'reports.fuel_detail.client_use_2', align: 'start', width: '120', value: 'client_use_2' },
-      { text: 'Client Use 3', key: 'reports.fuel_detail.client_use_3', align: 'start', width: '120', value: 'client_use_3' },
-      { text: 'Client Use 4', key: 'reports.fuel_detail.client_use_4', align: 'start', width: '120', value: 'client_use_4' },
-      { text: 'Client Use 5', key: 'reports.fuel_detail.client_use_5', align: 'start', width: '120', value: 'client_use_5' },
-      { text: 'Client Vehicle Number', key: 'reports.fuel_detail.client_vehicle_number', align: 'start', width: '175', value: 'client_vehicle_number' },
-      { text: 'Driver ID', key: 'reports.fuel_detail.driver_id', align: 'start', width: '120', value: 'driver_id' },
-      { text: 'Driver Name', key: 'reports.fuel_detail.driver_name', align: 'start', width: '200', value: 'driver_name' },
-      { text: 'EMKAY Invoice Date', key: 'reports.fuel_detail.emkay_invoice_date', align: 'start', width: '175', value: 'emkay_invoice_date' },
-      { text: 'EMKAY Invoice Number', key: 'reports.fuel_detail.emkay_invoice_number', align: 'start', width: '200', value: 'emkay_invoice_number' },
-      { text: 'Engine Fuel Type', key: 'reports.fuel_detail.engine_fuel_type', align: 'start', width: '150', value: 'engine_fuel_type' },
-      { text: 'Exception', key: 'reports.fuel_detail.exception', align: 'start', width: '100', value: 'exception' },
-      { text: 'Fuel Card Vendor', key: 'reports.fuel_detail.fuel_card_vendor', align: 'start', width: '120', value: 'fuel_card_vendor' },
-      { text: 'Fuel Company Name', key: 'reports.fuel_detail.fuel_company_name', align: 'start', width: '175', value: 'fuel_company_name' },
-      { text: 'Fuel Company Number', key: 'reports.fuel_detail.fuel_company_number', align: 'start', width: '180', value: 'fuel_company_number' },
-      { text: 'Invoice Number', key: 'reports.fuel_detail.invoice_number', align: 'start', width: '150', value: 'invoice_number' },
-      { text: 'Level 1', key: 'reports.fuel_detail.level_01', align: 'start', width: '150', value: 'level_01' },
-      { text: 'Level 2', key: 'reports.fuel_detail.level_02', align: 'start', width: '150', value: 'level_02' },
-      { text: 'Level 3', key: 'reports.fuel_detail.level_03', align: 'start', width: '150', value: 'level_03' },
-      { text: 'Merchant Address', key: 'reports.fuel_detail.merchant_address', align: 'start', width: '250', value: 'merchant_address' },
-      { text: 'Merchant City', key: 'reports.fuel_detail.merchant_city', align: 'start', width: '150', value: 'merchant_city' },
-      { text: 'Merchant State', key: 'reports.fuel_detail.merchant_state', align: 'start', width: '140', value: 'merchant_state' },
-      { text: 'Merchant ZIP', key: 'reports.fuel_detail.merchant_zip', align: 'start', width: '150', value: 'merchant_zip' },
-      { text: 'Model Year', key: 'reports.fuel_detail.model_year', align: 'start', width: '120', value: 'model_year' },
-      { text: 'Odometer', key: 'reports.fuel_detail.odometer', align: 'start', width: '120', value: 'odometer' },
-      { text: 'Premium', key: 'reports.fuel_detail.premium', align: 'start', width: '120', value: 'premium' },
-      { text: 'Product', key: 'reports.fuel_detail.product', align: 'start', width: '120', value: 'product' },
-      { text: 'Product Type', key: 'reports.fuel_detail.product_type', align: 'start', width: '150', value: 'product_type' },
-      { text: 'Quantity', key: 'reports.fuel_detail.quantity', align: 'start', width: '120', value: 'quantity' },
-      { text: 'Service Date', key: 'reports.fuel_detail.service_date', align: 'start', width: '200', value: 'service_date' },
-      { text: 'Service Time', key: 'reports.fuel_detail.service_time', align: 'start', width: '200', value: 'service_time' },
-      // { text: 'Sysunit', key: 'reports.fuel_detail.sysunit', align: 'start', width: '120', value: 'sysunit' },
-      { text: 'Tank Capacity', key: 'reports.fuel_detail.tank_capacity', align: 'start', width: '150', value: 'tank_capacity' },
-      { text: 'Tax Exempt', key: 'reports.fuel_detail.tax_exempt', align: 'start', width: '120', value: 'tax_exempt' },
-      // { text: 'Type', key: 'reports.fuel_detail.type', align: 'start', width: '120', value: 'type' },
-      { text: 'Unit Price', key: 'reports.fuel_detail.unit_price', align: 'start', width: '120', value: 'unit_price' },
-      { text: 'Vehicle Make', key: 'reports.fuel_detail.vehicle_make', align: 'start', width: '150', value: 'vehicle_make' },
-      { text: 'Vehicle Model', key: 'reports.fuel_detail.vehicle_model', align: 'start', width: '200', value: 'vehicle_model' },
-      { text: 'Vehicle Number', key: 'reports.fuel_detail.vehicle_number', align: 'start', width: '150', value: 'vehicle_number' },
-      { text: 'VIN', key: 'reports.fuel_detail.vin', align: 'start', width: '100', value: 'vin' },
-      { text: 'Voucher', key: 'reports.fuel_detail.voucher', align: 'start', width: '120', value: 'voucher' }
-    ],
     items: []
   }),
   middleware: ['auth'],
+  computed: {
+    columns () {
+      // this list may change between canada/us, so generate it in a COMPUTED method
+      return [
+        'amount',
+        'bill_date',
+        'bill_sort',
+        'card_number',
+        'center_code',
+        'center_name',
+        'client_use_1',
+        'client_use_2',
+        'client_use_3',
+        'client_use_4',
+        'client_use_5',
+        'client_vehicle_number',
+        'driver_id',
+        'driver_name',
+        'emkay_invoice_date',
+        'emkay_invoice_number',
+        'engine_fuel_type',
+        'exception',
+        'fuel_card_vendor',
+        'fuel_company_name',
+        'fuel_company_number',
+        'invoice_number',
+        'level_01',
+        'level_02',
+        'level_03',
+        'merchant_address',
+        'merchant_city',
+        'merchant_state',
+        'merchant_zip',
+        'model_year',
+        'odometer',
+        'premium',
+        'product',
+        'product_type',
+        'quantity',
+        'service_date',
+        'service_time',
+        'tank_capacity',
+        'tax_exempt',
+        'unit_price',
+        'vehicle_make',
+        'vehicle_model',
+        'vehicle_number',
+        'vin',
+        'voucher'
+      ]
+    },
+    /**
+     * Convert a list of columns to a list of TableHeader[]
+     */
+    getHeaders () {
+      // {
+      //   text: string
+      //   value: string
+      //   align?: 'start' | 'center' | 'end'
+      //   sortable?: boolean
+      //   filterable?: boolean
+      //   divider?: boolean
+      //   class?: string | string[]
+      //   width?: string | number
+      //   filter?: (value: any, search: string, item: any) => boolean
+      //   sort?: (a: any, b: any) => number
+      // }
+      let headers = []
+      // for each column header, create a TableHeader with translated text and class 'report-column'
+      headers = this.columns.map((column) => {
+        return {
+          text: this.$t(`${this.i18nNamespace}.${column}`),
+          value: column,
+          class: 'report-column'
+        }
+      })
+      return headers
+    },
+    headers2 () {
+      return [
+        // {
+        //   text: string
+        //   value: string
+        //   align?: 'start' | 'center' | 'end'
+        //   sortable?: boolean
+        //   filterable?: boolean
+        //   divider?: boolean
+        //   class?: string | string[]
+        //   width?: string | number
+        //   filter?: (value: any, search: string, item: any) => boolean
+        //   sort?: (a: any, b: any) => number
+        // },
+        {
+          text: this.$t(`${this.i18nNamespace}.amount`),
+          value: 'amount',
+          align: 'start',
+          width: 120
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.bill_date`),
+          value: 'bill_date',
+          align: 'start',
+          width: 160
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.bill_sort`),
+          value: 'bill_sort',
+          align: 'start',
+          width: 180
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.card_number`),
+          value: 'card_number',
+          align: 'start',
+          width: 150
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.center_code`),
+          value: 'center_code',
+          align: 'start',
+          width: 150
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.center_name`),
+          value: 'center_name',
+          align: 'start',
+          width: 150
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.client_use_1`),
+          value: 'client_use_1',
+          align: 'start',
+          width: 165
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.client_use_2`),
+          value: 'client_use_2',
+          align: 'start',
+          width: 165
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.client_use_3`),
+          value: 'client_use_3',
+          align: 'start',
+          width: 165
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.client_use_4`),
+          value: 'client_use_4',
+          align: 'start',
+          width: 165
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.client_use_5`),
+          value: 'client_use_5',
+          align: 'start',
+          width: 165
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.client_vehicle_number`),
+          value: 'client_vehicle_number',
+          align: 'start',
+          width: 210
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.driver_id`),
+          value: 'driver_id',
+          align: 'start',
+          width: 160
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.driver_name`),
+          value: 'driver_name',
+          align: 'start',
+          width: 175
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.emkay_invoice_date`),
+          value: 'emkay_invoice_date',
+          align: 'start',
+          width: 200
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.emkay_invoice_number`),
+          value: 'emkay_invoice_number',
+          align: 'start',
+          width: 200
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.engine_fuel_type`),
+          value: 'engine_fuel_type',
+          align: 'start',
+          width: 210
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.exception`),
+          value: 'exception',
+          align: 'start',
+          width: 150
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.fuel_card_vendor`),
+          value: 'fuel_card_vendor',
+          align: 'start',
+          width: 220
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.fuel_company_name`),
+          value: 'fuel_company_name',
+          align: 'start',
+          width: 240
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.fuel_company_number`),
+          value: 'fuel_company_number',
+          align: 'start',
+          width: 260
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.invoice_number`),
+          value: 'invoice_number',
+          align: 'start',
+          width: 160
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.level_01`),
+          value: 'level_01',
+          align: 'start',
+          width: 120
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.level_02`),
+          value: 'level_02',
+          align: 'start',
+          width: 120
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.level_03`),
+          value: 'level_03',
+          align: 'start',
+          width: 120
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.merchant_address`),
+          value: 'merchant_address',
+          align: 'start',
+          width: 200
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.merchant_city`),
+          value: 'merchant_city',
+          align: 'start',
+          width: 180
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.merchant_state`),
+          value: 'merchant_state',
+          align: 'start',
+          width: 160
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.merchant_zip`),
+          value: 'merchant_zip',
+          align: 'start',
+          width: 180
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.model_year`),
+          value: 'model_year',
+          align: 'start',
+          width: 160
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.odometer`),
+          value: 'odometer',
+          align: 'start',
+          width: 150
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.premium`),
+          value: 'premium',
+          align: 'start',
+          width: 150
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.product`),
+          value: 'product',
+          align: 'start',
+          width: 150
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.product_type`),
+          value: 'product_type',
+          align: 'start',
+          width: 160
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.quantity`),
+          value: 'quantity',
+          align: 'start',
+          width: 150
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.service_date`),
+          value: 'service_date',
+          align: 'start',
+          width: 150
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.service_time`),
+          value: 'service_time',
+          align: 'start',
+          width: 150
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.tank_capacity`),
+          value: 'tank_capacity',
+          align: 'start',
+          width: 170
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.tax_exempt`),
+          value: 'tax_exempt',
+          align: 'start',
+          width: 150
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.unit_price`),
+          value: 'unit_price',
+          align: 'start',
+          width: 140
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.vehicle_make`),
+          value: 'vehicle_make',
+          align: 'start',
+          width: 160
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.vehicle_model`),
+          value: 'vehicle_model',
+          align: 'start',
+          width: 160
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.vehicle_number`),
+          value: 'vehicle_number',
+          align: 'start',
+          width: 160
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.vin`),
+          value: 'vin',
+          align: 'start',
+          width: 200
+        },
+        {
+          text: this.$t(`${this.i18nNamespace}.voucher`),
+          value: 'voucher',
+          align: 'start',
+          width: 150
+        }
+      ]
+    }
+  },
   async created () {
     await this.getReportData()
+    this.initializing = false
   },
   methods: {
     async getReportData () {
@@ -194,7 +523,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
-</style>
