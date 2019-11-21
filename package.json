@@ -19,13 +19,14 @@
     "imagemin-mozjpeg": "^8.0.0",
     "jsonwebtoken": "^8.5.1",
     "nuxt": "^2.0.0",
-    "nuxt-i18n": "^6.3.1",
+    "nuxt-i18n": "^6.4.0",
     "nuxt-imagemin": "^1.0.0",
     "vue-grid-layout": "^2.3.7",
     "vue-json-excel": "^0.2.98",
     "vue-no-ssr": "^1.1.1"
   },
   "devDependencies": {
+    "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/eslint-config": "^1.0.1",
     "@nuxtjs/eslint-module": "^1.0.0",
     "@nuxtjs/vuetify": "^1.0.0",

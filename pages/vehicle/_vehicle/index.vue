@@ -38,11 +38,10 @@
           </v-btn>
         </v-toolbar-items>
         <v-spacer />
-        
+
         <v-btn title="Edit Vehicle" icon>
           <v-icon>mdi-pencil</v-icon>
         </v-btn>
-        
       </template>
     </v-app-bar>
     <v-container>
