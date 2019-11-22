@@ -126,9 +126,11 @@ export default {
   }),
   methods: {
     async logout () {
-      await this.$auth.logout()
       this.drawer = false
-      this.$auth.redirect('/')
+      // this.$route.query = null
+      await this.$auth.logout()
+      // $nuxt.$router.push({ path: '/', query: {} })
+      // this.$auth.redirect('/', true)
     }
   }
 }

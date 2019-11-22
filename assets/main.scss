@@ -1,10 +1,10 @@
 /* no wrapping on datatable columns */
 .report-column {
-  min-width: 150px;
-  max-width: 250px;
-  text-overflow: ellipsis;
+  min-width: 120px;
+  // max-width: 250px;
+  // text-overflow: ellipsis;
   white-space: nowrap;
-  overflow: hidden;
+  // overflow: hidden;
 }
 
 /* striped datatable using .striped class */

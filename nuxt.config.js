@@ -1,4 +1,5 @@
-import { en, fr, en as ca } from 'vuetify/lib/locale'
+// import { en, fr, en as ca } from 'vuetify/lib/locale'
+import { en, fr, en as enCA } from 'vuetify/lib/locale'
 import colors from 'vuetify/es5/util/colors'
 import imageminMozjpeg from 'imagemin-mozjpeg'
 
@@ -49,9 +50,16 @@ export default {
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
     // '@nuxtjs/eslint-module',
+    // Doc: https://github.com/nuxt-community/vuetify-module
     '@nuxtjs/vuetify',
-    '@nuxtjs/dotenv'
+    // Doc: https://github.com/nuxt-community/dotenv-module
+    '@nuxtjs/dotenv',
+    // Doc: https://github.com/nuxt-community/moment-module
+    '@nuxtjs/moment'
   ],
+  moment: {
+    locales: ['fr-ca', 'en-ca']
+  },
   /*
   ** Nuxt.js modules
   */
@@ -84,13 +92,13 @@ export default {
       },
       {
         name: 'English (Metric)',
-        code: 'ca',
+        code: 'en-ca',
         iso: 'en-CA',
         file: 'en-ca.js'
       },
       {
         name: 'Français',
-        code: 'fr',
+        code: 'fr-ca',
         iso: 'fr-CA',
         file: 'fr-ca.js'
       }
@@ -129,7 +137,7 @@ export default {
     redirect: {
       login: '/login',
       logout: '/login',
-      home: false
+      home: '/'
     },
     strategies: {
       local: {
@@ -158,7 +166,7 @@ export default {
   */
   vuetify: {
     lang: {
-      locales: { en, fr, ca },
+      locales: { en, fr, enCA },
       current: 'en'
     },
     customVariables: ['~/assets/variables.scss'],
@@ -175,8 +183,8 @@ export default {
         },
         dark: {
           primary: colors.deepPurple.lighten2,
-          accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
+          secondary: colors.grey.darken3,
+          accent: colors.amber.darken3,
           info: colors.teal.lighten1,
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,

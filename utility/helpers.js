@@ -22,12 +22,3 @@ export const headersForExport = (headers) => {
   // return a single object with all exported columns as fields
   return Object.assign({}, ...headerColumns)
 }
-
-/**
- * Helper function that returns the input formatted as USD
- * @param {*} value
- */
-export const formatCurrency = (value) => {
-  const formatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2 })
-  return formatter.format(value)
-}

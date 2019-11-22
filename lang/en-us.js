@@ -23,6 +23,7 @@ export default {
     language: "Language",
     ok: "OK",
     search: "Search",
+    no_search_results: "Your search for \"{query}\" found no results.",
     welcome_to_emkay: "Welcome to EMKAY"
   },
   date: {

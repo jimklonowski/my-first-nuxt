@@ -16,7 +16,7 @@
         >
           <template #activator="{ on }">
             <v-tab title="Reporting" style="min-width:60px;" v-on="on">
-              <v-icon v-show="$vuetify.breakpoint.mdAndDown" color="warning lighten-4">
+              <v-icon v-show="$vuetify.breakpoint.mdAndDown" color="primary lighten-2">
                 mdi-monitor-dashboard
               </v-icon>
               <span v-show="$vuetify.breakpoint.lgAndUp">

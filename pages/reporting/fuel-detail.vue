@@ -8,32 +8,33 @@
             <v-spacer />
             <v-text-field
               v-model="search"
-              append-icon="mdi-search"
+              prepend-icon="mdi-magnify"
               :label="$t('common.search')"
               clearable
               single-line
               hide-details
             />
           </v-card-title>
-          <v-skeleton-loader :loading="initializing" type="table">
-            <v-data-table
-              :loading="loading"
-              :headers="getHeaders"
-              :items="items"
-              :search="search"
-              class="striped"
-            >
-              <!-- v-data-table slot="top" -->
-              <template #top>
-                <v-toolbar prominent flat>
+          <v-card-text>
+            <v-skeleton-loader :loading="initializing" type="table">
+              <v-data-table
+                :loading="loading"
+                :headers="getHeaders"
+                :items="items"
+                :search="search"
+                class="striped"
+              >
+                <!-- BELOW ARE OVERRIDES FOR THE DEFAULT V-DATA-TABLE SLOTS https://vuetifyjs.com/en/components/data-tables#api -->
+                <!-- TOP: Date filters -->
+                <template #top>
                   <v-container>
                     <v-row>
-                      <v-col cols="6">
+                      <v-col cols="12" md="6">
                         <v-menu
                           ref="start_menu"
                           v-model="start_menu"
                           :close-on-content-click="false"
-                          :return-value.sync="start_date"
+                          :return-value.sync="start"
                           transition="scale-transition"
                           offset-y
                           max-width="290px"
@@ -41,7 +42,7 @@
                         >
                           <template #activator="{ on }">
                             <v-text-field
-                              v-model="start_date"
+                              v-model="start"
                               :label="$t('date.start_date')"
                               prepend-icon="mdi-calendar"
                               readonly
@@ -49,27 +50,27 @@
                             />
                           </template>
                           <v-date-picker
-                            v-model="start_date"
+                            v-model="start"
                             type="month"
                             no-title
                             scrollable
                           >
                             <v-spacer />
-                            <v-btn text color="primary" @click="start_menu = false">
+                            <v-btn text @click="start_menu = false">
                               {{ $t('common.cancel') }}
                             </v-btn>
-                            <v-btn text color="primary" @click="$refs.start_menu.save(start_date)">
+                            <v-btn text @click="$refs.start_menu.save(start), updateFilters()">
                               {{ $t('common.ok') }}
                             </v-btn>
                           </v-date-picker>
                         </v-menu>
                       </v-col>
-                      <v-col cols="6">
+                      <v-col cols="12" md="6">
                         <v-menu
                           ref="end_menu"
                           v-model="end_menu"
                           :close-on-content-click="false"
-                          :return-value.sync="end_date"
+                          :return-value.sync="end"
                           transition="scale-transition"
                           offset-y
                           max-width="290px"
@@ -77,7 +78,7 @@
                         >
                           <template #activator="{ on }">
                             <v-text-field
-                              v-model="end_date"
+                              v-model="end"
                               :label="$t('date.end_date')"
                               prepend-icon="mdi-calendar"
                               readonly
@@ -85,42 +86,77 @@
                             />
                           </template>
                           <v-date-picker
-                            v-model="end_date"
+                            v-model="end"
                             type="month"
                             no-title
                             scrollable
                           >
                             <v-spacer />
-                            <v-btn text color="primary" @click="end_menu = false">
+                            <v-btn text @click="end_menu = false">
                               {{ $t('common.cancel') }}
                             </v-btn>
-                            <v-btn text color="primary" @click="$refs.end_menu.save(end_date)">
+                            <v-btn text @click="$refs.end_menu.save(end), updateFilters()">
                               {{ $t('common.ok') }}
                             </v-btn>
                           </v-date-picker>
                         </v-menu>
                       </v-col>
+                      <v-col cols="12" md="6">
+                        <v-switch
+                          v-model="use_bill_date"
+                          :label="'Use Bill Date'"
+                          :false-value="'N'"
+                          :true-value="'Y'"
+                          hint="Not Yet Implemented..."
+                          messages="Not Yet Implemented..."
+                          @change="updateFilters()"
+                        />
+                      </v-col>
                     </v-row>
                   </v-container>
-                </v-toolbar>
-              </template>
+                </template>
 
-              <!-- format 'amount' as currency -->
-              <template #item.amount="{ item }">
-                {{ item.amount | currency }}
-              </template>
+                <!-- Datatable loading indicator -->
+                <template #progress>
+                  <v-progress-linear color="primary" height="5" indeterminate />
+                </template>
 
-              <!-- format 'card_number' as a chip -->
-              <template #item.card_number="{ item }">
-                <v-chip :outlined="$vuetify.theme.dark" small v-text="item.card_number" />
-              </template>
+                <!-- No Data (from server) -->
+                <template #no-data>
+                  <div class="text-left">
+                    No data was returned.
+                  </div>
+                </template>
 
-              <!-- format vehicle_number as a vehicle-dashboard link -->
-              <template #item.vehicle_number="{ item }">
-                <v-btn small :title="$t(`${i18nNamespace}.to_vehicle_dashboard`)" :to="localePath({ path: `/vehicle/${item.vehicle_number}` })" v-text="item.vehicle_number" />
-              </template>
-            </v-data-table>
-          </v-skeleton-loader>
+                <!-- No Results (search) -->
+                <template #no-results>
+                  <div class="text-left">
+                    {{ $t('common.no_search_results', { 'query': search }) }}
+                  </div>
+                </template>
+
+                <!-- format 'amount' as currency -->
+                <template #item.amount="{ item }">
+                  {{ item.amount | currency }}
+                </template>
+
+                <!-- format 'bill_date' as locale date -->
+                <template #item.bill_date="{ item }">
+                  {{ item.bill_date | date }}
+                </template>
+
+                <!-- format 'card_number' as a chip -->
+                <template #item.card_number="{ item }">
+                  <v-chip :outlined="$vuetify.theme.dark" small v-text="item.card_number" />
+                </template>
+
+                <!-- format vehicle_number as a vehicle-dashboard link -->
+                <template #item.vehicle_number="{ item }">
+                  <v-btn small :title="$t(`${i18nNamespace}.to_vehicle_dashboard`)" :to="localePath({ path: `/vehicle/${item.vehicle_number}` })" v-text="item.vehicle_number" />
+                </template>
+              </v-data-table>
+            </v-skeleton-loader>
+          </v-card-text>
         </v-card>
       </v-col>
     </v-row>
@@ -130,19 +166,23 @@
 <script>
 export default {
   name: 'FuelDetail',
-  data: () => ({
+  data: vm => ({
     i18nNamespace: 'reports.fuel_detail',
     error: null,
     initializing: true,
     loading: false,
-    start_date: '2019-10',
+    // start: vm.$moment().format('L'),
+    start: vm.$moment().startOf('month').format('YYYY-MM'),
     start_menu: false,
-    end_date: '2019-10',
+    // end: vm.$moment().format('L'),
+    end: vm.$moment().endOf('month').format('YYYY-MM'),
     end_menu: false,
+    use_bill_date: false,
     search: '',
     items: []
   }),
-  middleware: ['auth'],
+  // parent view is authed, so unnecessary
+  // middleware: ['auth'],
   computed: {
     columns () {
       // this list may change between canada/us, so generate it in a COMPUTED method
@@ -195,7 +235,7 @@ export default {
       ]
     },
     /**
-     * Convert a list of columns to a list of TableHeader[]
+     * Convert a string list of columns to a list of TableHeader[]
      */
     getHeaders () {
       // {
@@ -508,17 +548,45 @@ export default {
       ]
     }
   },
+  // https://nuxtjs.org/api/pages-watchquery/
+  watchQuery (newQuery, oldQuery) {
+    // re-fetch data when query changes
+    this.getReport()
+  },
   async created () {
-    await this.getReportData()
+    // cancel an existing query
+    if (this.$route.query) {
+      if (this.$route.query.start) { this.start = this.$route.query.start }
+      if (this.$route.query.end) { this.end = this.$route.query.end }
+      if (this.$route.query.bill_date) { this.use_bill_date = this.$route.query.bill_date }
+    }
+    await this.getReport()
     this.initializing = false
   },
   methods: {
-    async getReportData () {
+    updateFilters () {
+      // this.$router.push({ query: { start: this.start, end: this.end, use_bill_date: false } })
+      // add the query filters to the current url, triggering the watchQuery handler
+      this.$router.push({ query: { start: this.start, end: this.end } })
+    },
+    async getReport () {
       this.loading = true
-      const url = `${process.env.EMKAY_API}/rest-test/fuel-detail`
-      const res = await this.$axios.post(url, { start_date: this.start_date, end_date: this.end_date })
-      this.items = res.data.data
-      this.loading = false
+      this.items = []
+      try {
+        const filters = { start_date: this.start, end_date: this.end }
+
+        // if (this.use_bill_date) {
+        //   debugger
+        //   filters = { ...filters, ...{ bill_date: this.use_bill_date }}
+        // }
+
+        const response = await this.$axios.post(`${process.env.EMKAY_API}/rest-test/fuel-detail`, filters)
+        this.items = response.data.data
+        this.loading = false
+      } catch (e) {
+        debugger
+        throw new Error(e)
+      }
     }
   }
 }

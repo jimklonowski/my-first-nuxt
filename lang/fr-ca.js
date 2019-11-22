@@ -22,6 +22,7 @@ export default {
     language: "La langue",
     ok: "OK",
     search: "Chercher",
+    no_search_results: "Votre recherche pour \"{query}\" n'a trouvé aucun résultat.",
     welcome_to_emkay: "Bienvenue à EMKAY"
   },
   date: {
