@@ -4,6 +4,15 @@ import colors from 'vuetify/es5/util/colors'
 import imageminMozjpeg from 'imagemin-mozjpeg'
 
 export default {
+  /**
+   * Override vue config
+   */
+  vue: {
+    config: {
+      productionTip: false,
+      devtools: process.env.NODE_ENV === 'development'
+    }
+  },
   mode: 'universal',
   router: {
     base: process.env.NODE_ENV === 'production' ? '/nuxt/' : '/'
@@ -12,7 +21,7 @@ export default {
   ** Headers of the page
   */
   head: {
-    titleTemplate: 'EMKAY :: nuxtjs',
+    titleTemplate: 'EMKAY :: %s',
     title: process.env.npm_package_name || '',
     meta: [
       { charset: 'utf-8' },
@@ -27,7 +36,10 @@ export default {
   ** Customize the progress-bar color
   */
   loading: {
-    color: colors.deepPurple
+    // color: colors.deepPurple
+    color: colors.amber.darken3,
+    failedColor: colors.error,
+    height: '4px'
   },
   /*
   ** Global CSS
@@ -67,6 +79,7 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/auth',
+    '@nuxtjs/toast',
     'nuxt-i18n',
     // Doc: https://github.com/nuxt-community/style-resources-module
     // '@nuxtjs/style-resources',
@@ -79,6 +92,9 @@ export default {
       ]
     }]
   ],
+  toast: {
+    position: 'top-center'
+  },
   // styleResources: {
   //   scss: ['~/assets/main.scss']
   // },

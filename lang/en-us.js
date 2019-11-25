@@ -24,6 +24,8 @@ export default {
     ok: "OK",
     search: "Search",
     no_search_results: "Your search for \"{query}\" found no results.",
+    only_one_request: "Only one request allowed at a time.",
+    request_cancelled: "Request Cancelled",
     welcome_to_emkay: "Welcome to EMKAY"
   },
   date: {

@@ -87,6 +87,7 @@
 
 <script>
 export default {
+  name: 'Reporting',
   middleware: ['auth'],
   data: () => ({
     reporting_menu: false,
