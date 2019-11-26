@@ -18,9 +18,6 @@ export default {
   components: {
     EmkayFooter,
     EmkayNavigation
-  },
-  data () {
-    return {}
   }
 }
 </script>

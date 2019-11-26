@@ -1,5 +1,5 @@
 <template>
-  <no-ssr>
+  <client-only>
     <v-container>
       <v-row>
         <v-col>
@@ -19,7 +19,7 @@
             <v-card-text>
               <v-skeleton-loader :loading="!initialized" type="table">
                 <v-data-table
-                  :loading="loading"
+                  :loading="this.$nuxt.$loading && this.$nuxt.$loading.show"
                   :headers="getHeaders"
                   :items="items"
                   :search="search"
@@ -105,12 +105,12 @@
                         <v-col cols="12" md="6">
                           <v-switch
                             v-model="use_bill_date"
-                            :label="'Use Bill Date'"
+                            :label="$t(`date.bill_date`)"
                             :false-value="'N'"
                             :true-value="'Y'"
                             hint="Not Yet Implemented..."
                             messages="Not Yet Implemented..."
-                            @change="updateFilters()"
+                            @change=""
                           />
                         </v-col>
                       </v-row>
@@ -119,7 +119,7 @@
 
                   <!-- Datatable loading indicator -->
                   <template #progress>
-                    <v-progress-linear color="primary" height="5" indeterminate />
+                    <v-progress-linear color="accent darken-1" height="5" indeterminate />
                   </template>
 
                   <!-- No Data (from server) -->
@@ -162,7 +162,7 @@
         </v-col>
       </v-row>
     </v-container>
-  </no-ssr>
+  </client-only>
 </template>
 
 <script>
@@ -189,6 +189,7 @@ export default {
     const { data: { data: items } } = await app.$axios.post(`${process.env.EMKAY_API}/rest-test/fuel-detail`, filters, options) // ES6 destructuring response object
 
     // The returned object from asyncData() is merged with the returned object from data()
+    // data: { items: items [], ...data }
     return { items }
   },
 
@@ -200,7 +201,6 @@ export default {
       error: null,
       i18nNamespace: 'reports.fuel_detail',
       initialized: true,
-      loading: false,
       start: this.$route.query.start || this.$moment().startOf('month').format('YYYY-MM'),
       start_menu: false,
       end: this.$route.query.end || this.$moment().startOf('month').format('YYYY-MM'),
@@ -261,7 +261,7 @@ export default {
       ]
     },
     /**
-     * Convert a string list of columns to a list of TableHeader[]
+     * Convert a string list of columns to a list of TableHeader[] with default options
      */
     getHeaders () {
       /*
@@ -579,8 +579,6 @@ export default {
 
   methods: {
     updateFilters () {
-      // this.items = []
-      this.loading = true
       // add the query filters to the current url, triggering the watchQuery handler
       // this.$router.push({ query: { start: this.start, end: this.end, use_bill_date: false } })
       this.$router.push({ query: { start: this.start, end: this.end } })
@@ -588,6 +586,7 @@ export default {
   },
 
   /**
+   * Set specific <meta> tags for the current page.
    * Nuxt.js uses vue-meta to update the headers and html attributes of your application.
    * https://nuxtjs.org/api/pages-head */
   head () {
@@ -600,10 +599,12 @@ export default {
   },
 
   /**
+   * Specify a layout defined in the layouts directory. (compared to just a single App.vue)
    * Every file (first level) in the layouts directory will create a custom layout accessible with the layout property in the page component.
+   * THIS IS SET IN THE PARENT reporting.vue to be the reports.vue layout
    * https://nuxtjs.org/api/pages-layout
    * https://nuxtjs.org/guide/views#layouts */
-  layout: 'default',
+  // layout: 'default',
 
   /**
    * Nuxt.js gives you its own loading progress bar component that's shown between routes. You can customize it, disable it or create your own component.
@@ -617,6 +618,14 @@ export default {
   // middleware: 'auth',
   middleware ({ store, redirect }) {
     // The parent reporting route should already have the 'auth' middleware, so no need for child report route
+  },
+
+  /**
+   * Nuxt.js lets you define a validator method inside your dynamic route component.
+   * https://nuxtjs.org/api/pages-validate */
+  validate ({ params }) {
+    // nothing to validate for now
+    return true
   },
 
   /**
