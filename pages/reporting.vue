@@ -54,7 +54,7 @@
               <v-tab-item v-for="(category, key) in reporting_categories" :key="`reportingtab-item${key}`">
                 <v-card-text class="pa-0">
                   <v-list nav tile dense>
-                    <v-list-item v-for="(item, name, key) in category.items" :key="key" :to="localePath(item.to)" style="min-height:32px;">
+                    <v-list-item v-for="(item, name, key2) in category.items" :key="key2" :to="localePath(item.to)" style="min-height:32px;" @click="reporting_menu = false">
                       <v-icon class="mr-4" size="20">
                         {{ item.icon || 'mdi-source-commit' }}
                       </v-icon>
@@ -169,9 +169,9 @@ export default {
         key: 'reports.expenses',
         icon: '',
         items: [
-          { key: 'reports.fuel_detail_report', to: { path: '/reporting/fuel-detail' } }
+          { key: 'reports.fuel_detail_report', to: { path: '/reporting/fuel-detail' } },
           // { key: 'reporting.expense_summary', to: '/todo' },
-          // { key: 'reporting.maintenance_detail', to: '/todo' },
+          { key: 'reports.maintenance_detail_report', to: '/todo' }
           // { key: 'reporting.short_term_rental_detail', to: '/todo' },
           // { key: 'reporting.toll_detail', to: '/todo' }
         ]

@@ -26,7 +26,14 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
+      { hid: 'description', name: 'description', content: 'Since 1946, EMKAY has been the premier vehicle fleet management company in North America. We are your solution for your company car needs. Contact EMKAY 630-250-7400.' },
+      { hid: 'keywords', name: 'keywords', content: 'Emkay, leasing, fleet, fleet leasing, managed vehicles, corporate leasing, emkay, emkaynet, lease' },
+
+      // Open Graph
+      { hid: 'og:url', property: 'og:url', content: 'https://emkay.com' },
+      { hid: 'og:title', property: 'og:title', content: 'EMKAY' },
+      { hid: 'og:type', property: 'og:type', content: 'website' },
+      { hid: 'og:site_name', property: 'og:site_name', content: 'EMKAY' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: 'favicon.ico' }
@@ -37,8 +44,8 @@ export default {
   */
   loading: {
     // color: colors.deepPurple
-    color: colors.amber.darken3,
-    failedColor: colors.error,
+    color: colors.amber.base,
+    failedColor: colors.deepOrange.accent4,
     height: '4px'
   },
   /*
@@ -51,10 +58,10 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '~/plugins/mock-axios',
-    '~/plugins/filters.js'
-    // { src: '~/plugins/vue-grid', ssr: false }
-    // { src: '~/plugins/vue-masonry', ssr: false }
+    '~/plugins/custom-filters',
+    '~/plugins/vue-mock-axios',
+    { src: '~/plugins/vue-json-excel', ssr: false },
+    { src: '~/plugins/vue-snotify', ssr: false }
   ],
   /*
   ** Nuxt.js dev-modules
@@ -79,7 +86,7 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/auth',
-    '@nuxtjs/toast',
+    // '@nuxtjs/toast',
     'nuxt-i18n',
     // Doc: https://github.com/nuxt-community/style-resources-module
     // '@nuxtjs/style-resources',
@@ -92,9 +99,6 @@ export default {
       ]
     }]
   ],
-  toast: {
-    position: 'top-center'
-  },
   // styleResources: {
   //   scss: ['~/assets/main.scss']
   // },
@@ -147,7 +151,8 @@ export default {
   auth: {
     plugins: [
       {
-        src: '~/plugins/mock-axios'
+        // In production, we shouldn't be using mock-axios...
+        src: '~/plugins/vue-mock-axios'
       }
     ],
     redirect: {
@@ -217,7 +222,7 @@ export default {
     ** You can extend webpack config here
     */
     extend (config, ctx) {
-
+      // config.resolve.alias.vue = 'vue/dist/vue.common'
     }
   }
 }

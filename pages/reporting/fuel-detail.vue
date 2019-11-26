@@ -16,110 +16,132 @@
                 hide-details
               />
             </v-card-title>
+            <v-card-actions>
+              <v-container>
+                <v-row>
+                  <v-col cols="12" md="6">
+                    <v-menu
+                      ref="start_menu"
+                      v-model="start_menu"
+                      :close-on-content-click="false"
+                      :return-value.sync="start"
+                      transition="scale-transition"
+                      offset-y
+                      max-width="290px"
+                      min-width="290px"
+                    >
+                      <template #activator="{ on }">
+                        <v-text-field
+                          v-model="start"
+                          :label="$t('date.start_date')"
+                          prepend-icon="mdi-calendar"
+                          readonly
+                          v-on="on"
+                        />
+                      </template>
+                      <v-date-picker
+                        v-model="start"
+                        type="month"
+                        no-title
+                        scrollable
+                      >
+                        <v-spacer />
+                        <v-btn text @click="start_menu = false">
+                          {{ $t('common.cancel') }}
+                        </v-btn>
+                        <v-btn text @click="$refs.start_menu.save(start), updateFilters()">
+                          {{ $t('common.ok') }}
+                        </v-btn>
+                      </v-date-picker>
+                    </v-menu>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <v-menu
+                      ref="end_menu"
+                      v-model="end_menu"
+                      :close-on-content-click="false"
+                      :return-value.sync="end"
+                      transition="scale-transition"
+                      offset-y
+                      max-width="290px"
+                      min-width="290px"
+                    >
+                      <template #activator="{ on }">
+                        <v-text-field
+                          v-model="end"
+                          :label="$t('date.end_date')"
+                          prepend-icon="mdi-calendar"
+                          readonly
+                          v-on="on"
+                        />
+                      </template>
+                      <v-date-picker
+                        v-model="end"
+                        type="month"
+                        no-title
+                        scrollable
+                      >
+                        <v-spacer />
+                        <v-btn text @click="end_menu = false">
+                          {{ $t('common.cancel') }}
+                        </v-btn>
+                        <v-btn text @click="$refs.end_menu.save(end), updateFilters()">
+                          {{ $t('common.ok') }}
+                        </v-btn>
+                      </v-date-picker>
+                    </v-menu>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <v-switch
+                      v-model="use_bill_date"
+                      :label="$t(`date.bill_date`)"
+                      :false-value="'N'"
+                      :true-value="'Y'"
+                      hint="Not Yet Implemented..."
+                      messages="Not Yet Implemented..."
+                      @change=""
+                    />
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card-actions>
             <v-card-text>
               <v-skeleton-loader :loading="!initialized" type="table">
                 <v-data-table
+                  ref="dt"
                   :loading="this.$nuxt.$loading && this.$nuxt.$loading.show"
                   :headers="getHeaders"
                   :items="items"
                   :search="search"
                   class="striped"
                 >
-                  <!-- BELOW ARE OVERRIDES FOR THE DEFAULT V-DATA-TABLE SLOTS https://vuetifyjs.com/en/components/data-tables#api -->
-                  <!-- TOP: Date filters -->
+                  <!-- ** BELOW ARE (some) SLOTS THAT CAN BE CUSTOMIZED FOR THE DEFAULT V-DATA-TABLE https://vuetifyjs.com/en/components/data-tables#api ** -->
                   <template #top>
-                    <v-container>
-                      <v-row>
-                        <v-col cols="12" md="6">
-                          <v-menu
-                            ref="start_menu"
-                            v-model="start_menu"
-                            :close-on-content-click="false"
-                            :return-value.sync="start"
-                            transition="scale-transition"
-                            offset-y
-                            max-width="290px"
-                            min-width="290px"
-                          >
-                            <template #activator="{ on }">
-                              <v-text-field
-                                v-model="start"
-                                :label="$t('date.start_date')"
-                                prepend-icon="mdi-calendar"
-                                readonly
-                                v-on="on"
-                              />
-                            </template>
-                            <v-date-picker
-                              v-model="start"
-                              type="month"
-                              no-title
-                              scrollable
-                            >
-                              <v-spacer />
-                              <v-btn text @click="start_menu = false">
-                                {{ $t('common.cancel') }}
-                              </v-btn>
-                              <v-btn text @click="$refs.start_menu.save(start), updateFilters()">
-                                {{ $t('common.ok') }}
-                              </v-btn>
-                            </v-date-picker>
-                          </v-menu>
-                        </v-col>
-                        <v-col cols="12" md="6">
-                          <v-menu
-                            ref="end_menu"
-                            v-model="end_menu"
-                            :close-on-content-click="false"
-                            :return-value.sync="end"
-                            transition="scale-transition"
-                            offset-y
-                            max-width="290px"
-                            min-width="290px"
-                          >
-                            <template #activator="{ on }">
-                              <v-text-field
-                                v-model="end"
-                                :label="$t('date.end_date')"
-                                prepend-icon="mdi-calendar"
-                                readonly
-                                v-on="on"
-                              />
-                            </template>
-                            <v-date-picker
-                              v-model="end"
-                              type="month"
-                              no-title
-                              scrollable
-                            >
-                              <v-spacer />
-                              <v-btn text @click="end_menu = false">
-                                {{ $t('common.cancel') }}
-                              </v-btn>
-                              <v-btn text @click="$refs.end_menu.save(end), updateFilters()">
-                                {{ $t('common.ok') }}
-                              </v-btn>
-                            </v-date-picker>
-                          </v-menu>
-                        </v-col>
-                        <v-col cols="12" md="6">
-                          <v-switch
-                            v-model="use_bill_date"
-                            :label="$t(`date.bill_date`)"
-                            :false-value="'N'"
-                            :true-value="'Y'"
-                            hint="Not Yet Implemented..."
-                            messages="Not Yet Implemented..."
-                            @change=""
-                          />
-                        </v-col>
-                      </v-row>
-                    </v-container>
+                    <v-row no-gutters>
+                      <v-spacer />
+                      <v-btn :ripple="{ class: 'amber--text' }" :title="'Save .xls'" small depressed>
+                        <v-icon small class="mr-2">
+                          mdi-cloud-download
+                        </v-icon>
+                        <download-excel v-t="'common.download'" :fields="downloadHeaders" :data="items" />
+                      </v-btn>
+                    </v-row>
                   </template>
 
                   <!-- Datatable loading indicator -->
                   <template #progress>
-                    <v-progress-linear color="accent darken-1" height="5" indeterminate />
+                    <!-- Shows an overlay when data is currently loading -->
+                    <v-overlay :opacity="0.69" absolute>
+                      <span>{{ $t('common.loading') }}</span>
+                      <v-progress-linear
+                        color="amber"
+                        height="6"
+                        :buffer-value="0"
+                        :value="0"
+                        rounded
+                        stream
+                      />
+                    </v-overlay>
                   </template>
 
                   <!-- No Data (from server) -->
@@ -166,6 +188,11 @@
 </template>
 
 <script>
+/**
+ * Fuel Detail Report
+ * When a date filter changes, a call is made to updateFilters which updates the route's query parameters (?start=2019-11&end=2019-11&...)
+ * watchQuery listens for changes in the query parameters and onchange triggers all component methods (i.e. asyncData which will re-request data with new parameters)
+ */
 export default {
   name: 'FuelDetail',
 
@@ -174,7 +201,8 @@ export default {
    * Note: The fetch method is not called on query string changes by default. To change this, build out the watchQuery property of the page
    * https://nuxtjs.org/api/pages-fetch */
   async fetch ({ store, params }) {
-    // await store.dispatch('GET_REPORT_CONFIG')
+    // this might be useful to load column headers from server or something..
+    // await store.dispatch('LOAD_REPORT_HEADERS')
     // ignore this for now
   },
 
@@ -190,15 +218,16 @@ export default {
 
     // The returned object from asyncData() is merged with the returned object from data()
     // data: { items: items [], ...data }
+
     return { items }
   },
 
   /**
-   * data
-   */
+   * The data object for the Vue instance.
+   * Vue will recursively convert its properties into getter/setters to make it “reactive”. The object must be plain!
+   * https://vuejs.org/v2/api/#data */
   data () {
     return {
-      error: null,
       i18nNamespace: 'reports.fuel_detail',
       initialized: true,
       start: this.$route.query.start || this.$moment().startOf('month').format('YYYY-MM'),
@@ -209,7 +238,15 @@ export default {
       search: ''
     }
   },
+
+  /**
+   * Computed properties to be mixed into the Vue instance.
+   * https://vuejs.org/v2/api/#computed */
   computed: {
+    /**
+     * Array of columns to display in the report.  This may need special handling based on US/CAN.
+     * Additional logic or a separate query to determine the columns and their order might be necessary.
+     */
     columns () {
       // this list may change between canada/us, so generate it in a COMPUTED method
       return [
@@ -289,7 +326,14 @@ export default {
       })
       return headers
     },
-    headers2 () {
+    /**
+     * return a single object: { text1: key1, text2: key2, ... }
+     */
+    downloadHeaders () {
+      const exportHeaders = this.columns.map(column => ({ [this.$t(`${this.i18nNamespace}.${column}`)]: column }))
+      return Object.assign({}, ...exportHeaders)
+    },
+    oldheaders () {
       return [
         // {
         //   text: string
@@ -576,7 +620,9 @@ export default {
       ]
     }
   },
-
+  /**
+   * Methods to be mixed into the Vue instance. You can access these methods directly on the VM instance, or use them in directive expressions.
+   * https://vuejs.org/v2/api/#methods */
   methods: {
     updateFilters () {
       // add the query filters to the current url, triggering the watchQuery handler
@@ -593,7 +639,7 @@ export default {
     return {
       title: this.$t('reports.fuel_detail_report'),
       meta: [
-        { hid: 'description', name: 'description', content: this.$t('reports.fuel_detail_report') }
+        { hid: 'og:description', property: 'og:description', content: this.$t('reports.fuel_detail_report') }
       ]
     }
   },
@@ -633,8 +679,8 @@ export default {
    * @type {String|Object|Function}
    * https://nuxtjs.org/api/pages-transition */
   transition (to, from) {
-    if (!from) { return 'slide-left' }
-    return +to.query.page < +from.query.page ? 'slide-right' : 'slide-left'
+    // if (!from) { return 'slide-left' }
+    // return +to.query.page < +from.query.page ? 'slide-right' : 'slide-left'
   },
 
   /**

@@ -19,8 +19,10 @@ export default {
   },
   common: {
     cancel: "Cancel",
+    download: "Download",
     fleet: "Fleet",
     language: "Language",
+    loading: "Loading...",
     ok: "OK",
     search: "Search",
     no_search_results: "Your search for \"{query}\" found no results.",

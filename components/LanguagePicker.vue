@@ -5,7 +5,7 @@
     offset-y
   >
     <template #activator="{ on }">
-      <v-btn v-on="on" :title="$t('common.language')" icon>
+      <v-btn :title="$t('common.language')" icon v-on="on">
         <v-icon v-text="'mdi-web'" />
       </v-btn>
     </template>
@@ -30,6 +30,11 @@ export default {
     availableLocales () {
       // return this.$i18n.locales.filter(i => i.code !== this.$i18n.locale)
       return this.$i18n.locales
+    }
+  },
+  methods: {
+    changeLocale () {
+
     }
   }
 }

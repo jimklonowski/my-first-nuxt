@@ -1,13 +1,14 @@
 <template>
   <v-app>
     <emkay-navigation />
-
     <v-content>
       <!-- main router view -->
       <nuxt />
     </v-content>
-
     <emkay-footer />
+    <client-only>
+      <vue-snotify />
+    </client-only>
   </v-app>
 </template>
 

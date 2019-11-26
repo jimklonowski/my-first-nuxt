@@ -2,7 +2,7 @@
   <v-card outlined shaped>
     <v-card-title class="pa-0">
       <v-list-item>
-        <v-list-item-avatar tile @click.stop="" size="32" class="d-flex flex-column" style="cursor:pointer;">
+        <v-list-item-avatar tile size="32" class="d-flex flex-column" style="cursor:pointer;" @click.stop="">
           <v-icon>mdi-account-edit</v-icon>
           <p class="ma-0 overline">
             Edit
